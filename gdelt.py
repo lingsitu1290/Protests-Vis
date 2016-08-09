@@ -90,17 +90,19 @@ def get_URLs():
     for link in soup.findAll('a'):
         zipped_csv =  str(link.get('href'))
         list_of_zipped_files.append(zipped_csv)
-
-    return list_of_zipped_files
+    # Don't want first two because not csv files and third and last are corrupt  
+    return list_of_zipped_files[3:-1]
 
 
 # Get CSV zip files 
 def get_CSVs(URLs, data_dir): 
-    for item in URLs[3:-1]: 
+    for item in URLs: 
         link_to_csv = "http://data.gdeltproject.org/events/" + item
-
+        print "Downloading: ", link_to_csv
         response = requests.get(link_to_csv)
 
+        #Unzipping the file 
+        print "Unzipping: ", link_to_csv
         zipDocument = zipfile.ZipFile(StringIO.StringIO(response.content))
         #Unzip all files to data directory 
         zipDocument.extractall(data_dir)
@@ -109,7 +111,10 @@ def get_CSVs(URLs, data_dir):
 # loop through files in data directory to extract row[27] starting with 14 for PROTESTS
 def process_csv(data_dir): 
     for file in os.listdir(data_dir):
-        with open(file) as csvfile:
+        print "Opening File: ", file 
+        if not file.lower().endswith('.csv'):
+            continue
+        with open(data_dir+"/"+file) as csvfile:
             readCSV = csv.reader(csvfile, delimiter='\t')
             for row in readCSV:
                 if row[27]:
