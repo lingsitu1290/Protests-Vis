@@ -80,41 +80,54 @@ import zipfile
 import os
 import csv
 
-list_of_zipped_files = []
-list_of_file_links = []
-
 # extracting all zipped csv from gdelt 
-html_page = urllib2.urlopen("http://data.gdeltproject.org/events/index.html")
-soup = BeautifulSoup(html_page)
-for link in soup.findAll('a'):
-    zipped_csv =  str(link.get('href'))
-    list_of_zipped_files.append(zipped_csv)
-    # print list_of_zipped_files
+# Get URLS
+def get_URLs():
+    list_of_zipped_files = []
 
-for item in list_of_zipped_files[3:-1]: 
-    link_to_csv = "http://data.gdeltproject.org/events/" + item
+    html_page = urllib2.urlopen("http://data.gdeltproject.org/events/index.html")
+    soup = BeautifulSoup(html_page)
+    for link in soup.findAll('a'):
+        zipped_csv =  str(link.get('href'))
+        list_of_zipped_files.append(zipped_csv)
 
-    response = requests.get(link_to_csv)
+    return list_of_zipped_files
 
-    zipDocument = zipfile.ZipFile(StringIO.StringIO(responses.content))
-    #Unzip all files to /Users/Situ/src/PROJECT/data
-    zipDocument.extractall('/Users/Situ/src/PROJECT/data')
 
-# loop through files in /Users/Situ/src/PROJECT/data to extract row[27] starting with 14 for PROTESTS
-for file in os.listdir('/Users/Situ/src/PROJECT/data'):
-    with open(file) as csvfile:
-    readCSV = csv.reader(csvfile, delimiter='\t')
-    for row in readCSV:
-        if row[27] = 14:
+# Get CSV zip files 
+def get_CSVs(URLs, data_dir): 
+    for item in URLs[3:-1]: 
+        link_to_csv = "http://data.gdeltproject.org/events/" + item
 
-            #PRINTS ALL NEED INFO
-            print "EventBaseCode: ", row[27]
-            print "GoldsteinScale: ", row[30]
-            print "Lat: ", row[39]
-            print "Long: ", row[40]
-            print "URL: ", row[57]
+        response = requests.get(link_to_csv)
 
-            # READ INTO POSTGRES!!!! SEED.PY
+        zipDocument = zipfile.ZipFile(StringIO.StringIO(response.content))
+        #Unzip all files to data directory 
+        zipDocument.extractall(data_dir)
+
+# Process CSV
+# loop through files in data directory to extract row[27] starting with 14 for PROTESTS
+def process_csv(data_dir): 
+    for file in os.listdir(data_dir):
+        with open(file) as csvfile:
+            readCSV = csv.reader(csvfile, delimiter='\t')
+            for row in readCSV:
+                if row[27]:
+
+                    #PRINTS ALL NEED INFO
+                    print "EventBaseCode: ", row[27]
+                    print "GoldsteinScale: ", row[30]
+                    print "Lat: ", row[39]
+                    print "Long: ", row[40]
+                    print "URL: ", row[57]
+
+                # READ INTO POSTGRES!!!! SEED.P
+
+if __name__ == "__main__":
+    data_dir = './data'
+    # URLs = get_URLs()
+    # get_CSVs(URLs, data_dir)
+    process_csv(data_dir)
 
 
 
