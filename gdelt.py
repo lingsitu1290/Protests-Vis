@@ -6,6 +6,8 @@ import zipfile
 import os
 import csv
  
+DATA_DIR = "./data"
+
 # Get URLS from gdelt URL
 def get_URLs():
     list_of_zipped_files = []
@@ -20,7 +22,7 @@ def get_URLs():
 
 
 # Get CSV zip files 
-def get_CSVs(URLs, data_dir): 
+def get_CSVs(URLs, DATA_DIR): 
     for item in URLs: 
         link_to_csv = "http://data.gdeltproject.org/events/" + item
         print "Downloading: ", link_to_csv
@@ -30,22 +32,24 @@ def get_CSVs(URLs, data_dir):
         print "Unzipping: ", link_to_csv
         zipDocument = zipfile.ZipFile(StringIO.StringIO(response.content))
         #Unzip all files to data directory 
-        zipDocument.extractall(data_dir)
+        zipDocument.extractall(DATA_DIR)
 
 # Process CSV
-def process_csv(data_dir): 
-    protests_data = []
+protests_data = []
 
-    for file in os.listdir(data_dir):
+def process_csv(DATA_DIR): 
+
+    for file in os.listdir(DATA_DIR):
         print "Opening File: ", file 
         if not file.lower().endswith('.csv'):
             continue
-        with open(data_dir+"/"+file) as csvfile:
+        with open(DATA_DIR+"/"+file) as csvfile:
             readCSV = csv.reader(csvfile, delimiter='\t')
             for row in readCSV:
-                # Want all EventBaseCode that starts with 14 listed for Protests
+                # Want all EventBaseCode that starts with 14 listed for Protests 
+                # and discard data with missing eventcodes and lat/logs
                 # Extract all protest events 
-                if row[27][0:2] == "14":
+                if row[27][0:2] == "14" and row[26] != "" and row[53] != "" and row[54] != "":
 
                     #Prints all needed info
                     # print "SQLDATE: ", row[1]
@@ -61,11 +65,12 @@ def process_csv(data_dir):
                     # print "Long: ", row[54]
                     # print "URL: ", row[57]
 
-                    return protests_data.append(row)
-          
+                    # Add event to protest_data list
+                    protests_data.append(row)
+        # print protests_data 
+        return protests_data          
 
 if __name__ == "__main__":
-    data_dir = './data'
-    URLs = get_URLs()
-    get_CSVs(URLs, data_dir)
-    process_csv(data_dir)
+    # URLs = get_URLs()
+    # get_CSVs(URLs, DATA_DIR)
+    process_csv(DATA_DIR)
