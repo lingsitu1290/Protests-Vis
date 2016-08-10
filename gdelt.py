@@ -34,6 +34,8 @@ def get_CSVs(URLs, data_dir):
 
 # Process CSV
 def process_csv(data_dir): 
+    protests_data = []
+
     for file in os.listdir(data_dir):
         print "Opening File: ", file 
         if not file.lower().endswith('.csv'):
@@ -45,28 +47,25 @@ def process_csv(data_dir):
                 # Extract all protest events 
                 if row[27][0:2] == "14":
 
-                    #PRINTS ALL NEED INFO
-                    print "SQLDATE: ", row[1]
-                    print "MonthYear: ", row[2]
-                    print "Year: ", row[3]
-                    print "Full Country Name: ", row[36]
-                    print "EventCode: ", row[26]
-                    print "EventBaseCode: ", row[27]
-                    print "EventRootCode: ", row[28]
-                    print "QuadClass: ", row[29]
-                    print "GoldsteinScale: ", row[30]
-                    print "Lat: ", row[53]
-                    print "Long: ", row[54]
-                    print "URL: ", row[57]
+                    #Prints all needed info
+                    # print "SQLDATE: ", row[1]
+                    # print "MonthYear: ", row[2]
+                    # print "Year: ", row[3]
+                    # print "Full Country Name: ", row[36]
+                    # print "EventCode: ", row[26]
+                    # print "EventBaseCode: ", row[27]
+                    # print "EventRootCode: ", row[28]
+                    # print "QuadClass: ", row[29]
+                    # print "GoldsteinScale: ", row[30]
+                    # print "Lat: ", row[53]
+                    # print "Long: ", row[54]
+                    # print "URL: ", row[57]
 
-                    return row
-
-def seed(row):
-
-                
+                    return protests_data.append(row)
+          
 
 if __name__ == "__main__":
     data_dir = './data'
-    # URLs = get_URLs()
-    # get_CSVs(URLs, data_dir)
+    URLs = get_URLs()
+    get_CSVs(URLs, data_dir)
     process_csv(data_dir)
