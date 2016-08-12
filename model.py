@@ -23,7 +23,7 @@ class Event(db.Model):
     def __repr__(self):
         """Present event details when printed."""
 
-        return "<Event=%s full_date=%s full_location=%s>" %(self.event_id, self.full_date, self.full_location)
+        return "<Event={} full_date={} full_location={}>".format(self.event_id, self.full_date, self.full_location)
 
 def connect_to_db(app):
     """Connect the database to our Flask app."""
