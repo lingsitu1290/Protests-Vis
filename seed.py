@@ -52,9 +52,11 @@ def load_events(protests_data):
 if __name__ == "__main__":
     connect_to_db(app)
 
+    #Run protests_data function from gdelt.py and bind to protests_data
     protests_data = process_csv(DATA_DIR)
 
     # In case tables haven't been created, create them
     db.create_all()
 
+    #Run load_events function with protests_data passed in
     load_events(protests_data)
