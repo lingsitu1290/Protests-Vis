@@ -25,6 +25,7 @@ def load_events(protests_data):
     for protest in protests_data:
         event_id = protest[0]
         full_date = protest[1]
+        year = protest[3]
         event_code = protest[27]
         full_location = protest[36]
         latitude = protest[39]
@@ -35,7 +36,8 @@ def load_events(protests_data):
             continue
 
         event = Event(event_id=event_id,
-                      full_date=full_date, 
+                      full_date=full_date,
+                      year=year, 
                       event_code=event_code, 
                       full_location=full_location,
                       latitude=latitude,

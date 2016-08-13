@@ -12,8 +12,9 @@ class Event(db.Model):
 
     __tablename__ = "events"
 
-    event_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    event_id = db.Column(db.Integer, primary_key=True)
     full_date = db.Column(db.String(20), nullable=False)
+    year = db.Column(db.String(20), nullable=False)
     event_code = db.Column(db.String(20), nullable=False)
     full_location = db.Column(db.String(300), nullable=False)
     latitude = db.Column(db.Float, nullable=False)
@@ -34,7 +35,8 @@ def connect_to_db(app):
     db.init_app(app)
 
 if __name__ == "__main__":
-    # Used to run module interactively 
+    # Used to run module interactively
+    # Drops and creates database  
     import os
     os.system("dropdb protests")
     os.system("createdb protests")
