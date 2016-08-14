@@ -2,14 +2,15 @@
 <html>
     <head>
       <title>Protests</title>
+      <link rel="stylesheet" type="text/css" href="../static/css/style.css">
     </head>
 
     <body>
-      <!-- {% for message in get_flashed_messages() %}
-        {{ message }}
-      {% endfor %} -->
-      
-      
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/analyze">Analysis</a></li>
+        <li><a href="/sentiment">About</a></li>
+      </ul>   
             
       {% block content %} CONTENT {% endblock %}
 
