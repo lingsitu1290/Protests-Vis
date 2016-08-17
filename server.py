@@ -26,8 +26,11 @@ def heat():
 
     return render_template("heat.html")
 
-@app.route('/events.json')
-def latlong():
+#add info to route name, dynamically generate full_date
+#refactor into class /events/<int:full_date>.json'
+@app.route('/events/<fullDate>.json')
+#more informative function name events?
+def latlong(fullDate):
     """JSON information about events."""
 
     events = {
@@ -37,7 +40,7 @@ def latlong():
             "longitude":event.longitude,
             "url":event.url
         }
-        for event in Event.query.filter(Event.full_date=='20160815')}
+        for event in Event.query.filter(Event.full_date == fullDate)}
 
     return jsonify(events)
 
