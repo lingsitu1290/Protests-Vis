@@ -1,11 +1,13 @@
 """Protests Server"""
 
-# from jinja2 import StrictUndefined
+import os
 
-from flask import (Flask, render_template, redirect, request, flash, session)
+from jinja2 import StrictUndefined
+
+from flask import (Flask, render_template, redirect, request, flash, session, jsonify)
 from flask_debugtoolbar import DebugToolbarExtension
 
-# from model import connect_to_db, db, Event
+from model import connect_to_db, db, Event
 
 
 app = Flask(__name__)
@@ -16,7 +18,7 @@ app.secret_key = "ABC"
 # Normally, if you use an undefined variable in Jinja2, it fails
 # silently. This is horrible. Fix this so that, instead, it raises an
 # error.
-# app.jinja_env.undefined = StrictUndefined
+app.jinja_env.undefined = StrictUndefined
 
 @app.route('/')
 def heat():
@@ -24,24 +26,27 @@ def heat():
 
     return render_template("heat.html")
 
+@app.route('/events.json')
+def latlong():
+    """JSON information about events."""
+
+    events = {
+        event.event_id: {
+            "fullDate": event.full_date,
+            "latitude":event.latitude,
+            "longitude":event.longitude,
+            "url":event.url
+        }
+        for event in Event.query.filter(Event.full_date=='20160815')}
+
+    return jsonify(events)
+
 @app.route('/analyze')
 def analyze():
     """Interactively analyze Gdelt data."""
 
     return render_template("analyze.html")
 
-@app.route('/sentiment')
-def sentiment():
-    """Sentiment analysis of events."""
-
-    return render_template("sentiment.html")
-
-## Add feature?
-# @app.route('/submit')
-# def submit():
-#     """User can submit articles."""
-
-#     pass
 
 
 if __name__ == "__main__":
@@ -49,7 +54,7 @@ if __name__ == "__main__":
     # point that we invoke the DebugToolbarExtension
     app.debug = True
 
-    # connect_to_db(app)
+    connect_to_db(app)
 
     # Use the DebugToolbar
     DebugToolbarExtension(app)
