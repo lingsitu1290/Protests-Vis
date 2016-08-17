@@ -55,7 +55,6 @@ def process_csv(file_name):
 
     protests_data = []
 
-    #Get rid of the .zip at end of the file
     print "Opening File: ", file_name
     # if not item.lower().endswith('.csv'):
     #     continue
@@ -140,6 +139,7 @@ def process_file():
     for item in list_of_zipped_files:
         url = process_URL(item)
         download_and_unzip_file(url)
+        #Get rid of the .zip at end of the file
         file_name = item[0:-4]
         protests_data = process_csv(file_name)
         load_data(protests_data)
