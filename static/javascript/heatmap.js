@@ -232,32 +232,6 @@ function initialize() {
                     scrollwheel: false
                 });
 
-            var marker = new google.maps.Marker({
-                map: map,
-                place: {
-                    location: {lat: 42.58, lng: 21},
-                    query: 'Kosovo'
-                }
-            });
-
-             var marker = new google.maps.Marker({
-                map: map,
-                place: {
-                    location: {lat: 10, lng: 20},
-                    query: 'Ocean'
-                }
-            });
-
-            // Construct a new InfoWindow.
-            var infowindow = new google.maps.InfoWindow({
-                content: 'Kosovo'
-            });
-
-            // Opens the InfoWindow when marker is clicked.
-            marker.addListener('click', function () {
-                infowindow.open(map, marker);
-            });
-
             var infoWindow = new google.maps.InfoWindow({
                 width: 150
             });
