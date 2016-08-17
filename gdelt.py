@@ -5,11 +5,20 @@ import StringIO
 import zipfile
 import os
 import csv
- 
+
+from sqlalchemy import func
+from model import Event
+
+from model import connect_to_db, db
+from server import app
+
+
 DATA_DIR = "./data"
 
 # Get URLS from gdelt URL
 def get_URLs():
+    """Get list of URLs from webpage."""
+
     list_of_zipped_files = []
 
     html_page = urllib2.urlopen("http://data.gdeltproject.org/events/index.html")
@@ -17,60 +26,126 @@ def get_URLs():
     for link in soup.findAll('a'):
         zipped_csv =  str(link.get('href'))
         list_of_zipped_files.append(zipped_csv)
-    # Don't want first two files because not csv files and third and last are corrupt  
+    # Don't want first two files because not csv files and third and last are corrupt 
     return list_of_zipped_files[3:-1]
 
 
-# Get CSV zip files 
-def get_CSVs(URLs, DATA_DIR): 
-    for item in URLs: 
-        link_to_csv = "http://data.gdeltproject.org/events/" + item
-        print "Downloading: ", link_to_csv
-        response = requests.get(link_to_csv)
+def process_URL(item):
+    """Process the URL."""
 
-        #Unzipping the file 
-        print "Unzipping: ", link_to_csv
-        zipDocument = zipfile.ZipFile(StringIO.StringIO(response.content))
-        #Unzip all files to data directory 
-        zipDocument.extractall(DATA_DIR)
+    link_to_csv = "http://data.gdeltproject.org/events/" + item
 
-# Process CSV
-protests_data = []
+    return link_to_csv
 
-def process_csv(DATA_DIR): 
 
-    for file in os.listdir(DATA_DIR):
-        print "Opening File: ", file 
-        if not file.lower().endswith('.csv'):
+def download_and_unzip_file(URL):
+    """Download the file and unzip file into data directory and return unzipped file name."""
+
+    print "Downloading: ", URL
+    response = requests.get(URL)
+
+    print "Unzipping: ", URL
+    zipDocument = zipfile.ZipFile(StringIO.StringIO(response.content))
+    #Unzip all files to data directory 
+    zipDocument.extractall(DATA_DIR)
+
+
+def process_csv(file_name):
+    """Get data and store into database."""
+
+    protests_data = []
+
+    #Get rid of the .zip at end of the file
+    print "Opening File: ", file_name
+    # if not item.lower().endswith('.csv'):
+    #     continue
+    with open(DATA_DIR+"/"+file_name) as csvfile:
+        readCSV = csv.reader(csvfile, delimiter='\t')
+        for row in readCSV:
+            # Want all EventBaseCode that starts with 14 listed for Protests 
+            # and discard data with missing eventcodes and lat/logs
+            # Extract all protest events 
+            if row[27][0:2] == "14" and row[26] != "" and row[53] != "" and row[54] != "":
+
+                #Prints all needed info
+                # print "SQLDATE: ", row[1]
+                # print "MonthYear: ", row[2]
+                # print "Year: ", row[3]
+                # print "Full Country Name: ", row[36]
+                # print "EventCode: ", row[26]
+                # print "EventBaseCode: ", row[27]
+                # print "EventRootCode: ", row[28]
+                # print "QuadClass: ", row[29]
+                # print "GoldsteinScale: ", row[30]
+                # print "Lat: ", row[53]
+                # print "Long: ", row[54]
+                # print "URL: ", row[57]
+
+                # Add event to protest_data list
+                protests_data.append(row)
+    # print protests_data 
+    return protests_data
+
+
+def load_data(protests_data):
+    """Load events into database."""
+
+    # Delete all rows in table, so if we need to run this a second time,
+    # we won't be trying to add duplicate events 
+    print "Storing"
+
+    # Read through each protest event all need info
+    for protest in protests_data:
+        event_id = protest[0]
+        full_date = protest[1]
+        year = protest[3]
+        event_code = protest[27]
+        full_location = protest[36]
+        latitude = protest[39]
+        longitude = protest[40]
+        url = protest[57]
+
+        if latitude == "" or longitude == "":
             continue
-        with open(DATA_DIR+"/"+file) as csvfile:
-            readCSV = csv.reader(csvfile, delimiter='\t')
-            for row in readCSV:
-                # Want all EventBaseCode that starts with 14 listed for Protests 
-                # and discard data with missing eventcodes and lat/logs
-                # Extract all protest events 
-                if row[27][0:2] == "14" and row[26] != "" and row[53] != "" and row[54] != "":
 
-                    #Prints all needed info
-                    # print "SQLDATE: ", row[1]
-                    # print "MonthYear: ", row[2]
-                    # print "Year: ", row[3]
-                    # print "Full Country Name: ", row[36]
-                    # print "EventCode: ", row[26]
-                    # print "EventBaseCode: ", row[27]
-                    # print "EventRootCode: ", row[28]
-                    # print "QuadClass: ", row[29]
-                    # print "GoldsteinScale: ", row[30]
-                    # print "Lat: ", row[53]
-                    # print "Long: ", row[54]
-                    # print "URL: ", row[57]
+        event = Event(event_id=event_id,
+                      full_date=full_date,
+                      year=year, 
+                      event_code=event_code, 
+                      full_location=full_location,
+                      latitude=latitude,
+                      longitude=longitude,
+                      url=url)
 
-                    # Add event to protest_data list
-                    protests_data.append(row)
-        # print protests_data 
-        return protests_data          
+        # Add event to session
+        db.session.add(event)
+
+    # Commit to database
+    db.session.commit()
+
+
+def delete_file(file_name):
+    """Delete the file."""
+
+    print "Deleting: ", file_name
+    os.remove(DATA_DIR + "/" + file_name)
+
+
+def process_file():
+    """Download, unzip, store into database, and delete file."""
+
+    list_of_zipped_files = get_URLs()
+    # list_of_URLs = process_URL(list_of_zipped_files)
+
+    for item in list_of_zipped_files:
+        url = process_URL(item)
+        download_and_unzip_file(url)
+        file_name = item[0:-4]
+        protests_data = process_csv(file_name)
+        load_data(protests_data)
+        delete_file(file_name)
+
 
 if __name__ == "__main__":
-    # URLs = get_URLs()
-    # get_CSVs(URLs, DATA_DIR)
-    process_csv(DATA_DIR)
+    connect_to_db(app)
+    process_file()
