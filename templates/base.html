@@ -3,14 +3,16 @@
     <head>
       <title>Protests</title>
       <link rel="stylesheet" type="text/css" href="../static/css/style.css">
+      <link href="http://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet">
+      <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+      <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3&sensor=false">
+    </script>
     </head>
 
     <body>
-      <ul>
-        <li><a href="/">Home</a></li>
-        <li><a href="/analyze">Analysis</a></li>
-        <li><a href="/sentiment">About</a></li>
-      </ul>   
             
       {% block content %} CONTENT {% endblock %}
 

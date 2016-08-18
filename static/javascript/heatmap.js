@@ -197,10 +197,33 @@ function initialize() {
 
             map.mapTypes.set('map_style', customMapType);
             map.setMapTypeId('map_style');
+/* Add Slider */ 
+
+function createSlider(){
+    $("#slider-1").slider({
+        value: 20150602,
+        min: 20160101,
+        max: 20160815,
+        // step: 1,
+        // value: fullDate,
+        change: function( event, ui ) {
+            // console.log(ui.value)
+            // value: $("#slider-1").slider( "option", "value", ui.value);
+            $('#slider-value').html(ui.value)
+        },
+        // value: date,
+    });
+};
+
+createSlider()
 
 
- // Retrieving the information with AJAX
-$.get('/events/20160715.json', function (events) {
+// Retrieving the information with AJAX
+
+var fullDate = $('#slider-value').val()
+console.log(fullDate)
+
+$.get('/events/' + fullDate + '.json', function (events) {
 var events, marker, html;
 
 for (var key in events) {
@@ -241,5 +264,9 @@ function bindInfoWindow(marker, map, infoWindow, html) {
 
 
 google.maps.event.addDomListener(window, 'load', initialize);
+
+
+
+
 
 
