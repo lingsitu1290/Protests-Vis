@@ -201,52 +201,68 @@ function initialize() {
 
 function createSlider(){
     $("#slider-1").slider({
-        value: 20150602,
-        min: 20160101,
+        min: 20150101,
         max: 20160815,
         // step: 1,
         // value: fullDate,
         change: function( event, ui ) {
             // console.log(ui.value)
             // value: $("#slider-1").slider( "option", "value", ui.value);
-            $('#slider-value').html(ui.value)
-        },
-        // value: date,
+            $('#slider-value').html(ui.value) 
+            //calls changeMap
+            changeMap(ui.value);
+        },      
     });
+    // set the initial environments of the map
+    $("#slider-1").slider({
+        value: 20150101,
+    })
 };
 
 createSlider()
 
-
 // Retrieving the information with AJAX
 
-var fullDate = $('#slider-value').val()
-console.log(fullDate)
-
+function changeMap(fullDate){
 $.get('/events/' + fullDate + '.json', function (events) {
-var events, marker, html;
+    var events, marker, html;
 
-for (var key in events) {
-    var one_event = events[key]
+    //Object that stores the lat/ long and the count of the same 
+    var latLngCount = {};
 
-      // Define the marker
-    marker = new google.maps.Marker({
-        position: new google.maps.LatLng(parseInt(one_event.latitude), parseInt(one_event.longitude)),
-        map: map
+    for (var key in events) {
+        var one_event = events[key];
+        // var latitude = parseInt(one_event.latitude);
+        // var longitude = parseInt(one_event.longitude);
+
+        // var latlng = [one_event.latitude, one_event.longitude];
+        
+        // latLngCount[latlng] = 1;
+
+        // console.log(latLngCount);
+
+        // console.log(latitude, longitude);
+
+          // Define the marker
+        marker = new google.maps.Marker({
+            position: new google.maps.LatLng(one_event.latitude, one_event.longitude),
+            map: map,
+            // opacity: 0.3,
+        });
+
+        // Define the content of the infoWindow
+        html = (
+            '<div class="window-content">' +
+                '<a target="_blank" href='+ one_event.url + '>' + one_event.url + '</a>' +
+            '</div>');
+
+        // Inside the loop we call bindInfoWindow passing it the marker,
+        // map, infoWindow and contentString
+        bindInfoWindow(marker, map, infoWindow, html);
+    }
+
     });
-
-    // Define the content of the infoWindow
-    html = (
-        '<div class="window-content">' +
-            '<p>' + one_event.url + '</p>' +
-        '</div>');
-
-    // Inside the loop we call bindInfoWindow passing it the marker,
-    // map, infoWindow and contentString
-    bindInfoWindow(marker, map, infoWindow, html);
-}
-
-});
+};
 
 // This function is outside the for loop.
 // When a marker is clicked it closes any currently open infowindows
@@ -262,7 +278,7 @@ function bindInfoWindow(marker, map, infoWindow, html) {
 }
 
 
-
+//Place map on browser 
 google.maps.event.addDomListener(window, 'load', initialize);
 
 
