@@ -201,7 +201,7 @@ function initialize() {
 
 function createSlider(){
     $("#slider-1").slider({
-        min: 20150101,
+        min: 20160801,
         max: 20160815,
         // step: 1,
         // value: fullDate,
@@ -210,59 +210,76 @@ function createSlider(){
             // value: $("#slider-1").slider( "option", "value", ui.value);
             $('#slider-value').html(ui.value) 
             //calls changeMap
+            clearMarkers()
             changeMap(ui.value);
         },      
     });
     // set the initial environments of the map
     $("#slider-1").slider({
-        value: 20150101,
+        value: 20160801,
     })
 };
 
 createSlider()
 
-// Retrieving the information with AJAX
+// function getListOfDates(){
+//     $.get('/events.json', function(events){
+//         var events;
+//         var arrayOfDates = [];
 
+//         for (var key in events) {
+//             arrayOfDates.push(events[key].fullDate);
+
+//         console.log(arrayOfDates);
+//         }
+//     });
+// }
+
+// getListOfDates();
+
+
+// Retrieving events information with AJAX
 function changeMap(fullDate){
-$.get('/events/' + fullDate + '.json', function (events) {
-    var events, marker, html;
+    $.get('/events/' + fullDate + '.json', function (events) {
+        var events, marker, html;
 
-    //Object that stores the lat/ long and the count of the same 
-    var latLngCount = {};
+        //Object that stores the lat/ long and the count of the same 
+        var latLngCount = {};
+        var arrayOffullDate = [];
 
-    for (var key in events) {
-        var one_event = events[key];
-        // var latitude = parseInt(one_event.latitude);
-        // var longitude = parseInt(one_event.longitude);
+        for (var key in events) {
+            var one_event = events[key]
+            // var latitude = parseInt(one_event.latitude);
+            // var longitude = parseInt(one_event.longitude);
 
-        // var latlng = [one_event.latitude, one_event.longitude];
-        
-        // latLngCount[latlng] = 1;
+            // var latlng = [one_event.latitude, one_event.longitude];
+            
 
-        // console.log(latLngCount);
+            // arrayOffullDate.push(events[key].fullDate);
+            // console.log(events);
+            // console.log(arrayOffullDate);
+            // console.log(events[key].fullDate);
 
-        // console.log(latitude, longitude);
+            // Define the markers
+            marker = new google.maps.Marker({
+                position: new google.maps.LatLng(one_event.latitude, one_event.longitude),
+                map: map,
+                opacity: 0.8,
+            });
 
-          // Define the marker
-        marker = new google.maps.Marker({
-            position: new google.maps.LatLng(one_event.latitude, one_event.longitude),
-            map: map,
-            // opacity: 0.3,
+            // Define the content of the infoWindow
+            html = (
+                '<div class="window-content">' +
+                    '<a target="_blank" href='+ one_event.url + '>' + one_event.url + '</a>' +
+                '</div>');
+
+            // Inside the loop we call bindInfoWindow passing it the marker,
+            // map, infoWindow and contentString
+            bindInfoWindow(marker, map, infoWindow, html);
+        }
+
         });
-
-        // Define the content of the infoWindow
-        html = (
-            '<div class="window-content">' +
-                '<a target="_blank" href='+ one_event.url + '>' + one_event.url + '</a>' +
-            '</div>');
-
-        // Inside the loop we call bindInfoWindow passing it the marker,
-        // map, infoWindow and contentString
-        bindInfoWindow(marker, map, infoWindow, html);
-    }
-
-    });
-};
+    };
 
 // This function is outside the for loop.
 // When a marker is clicked it closes any currently open infowindows
@@ -277,6 +294,12 @@ function bindInfoWindow(marker, map, infoWindow, html) {
 }
 }
 
+//clearMarkers used to clear markers for each day
+function clearMarkers(){
+    google.maps.Map.prototype.clearOverlays = function() {
+      
+    }
+}
 
 //Place map on browser 
 google.maps.event.addDomListener(window, 'load', initialize);
