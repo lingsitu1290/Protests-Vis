@@ -12,13 +12,21 @@ from model import Event
 from model import connect_to_db, db
 from server import app
 
+#group into class
+
 
 DATA_DIR = "./data"
 
 # Get URLS from gdelt URL
 def get_URLs():
-    """Get list of URLs from webpage."""
+    """Get list of URLs from webpage.
 
+        >>> get_URLs()[-5:-1]
+        ['1983.zip', '1982.zip', '1981.zip', '1980.zip']
+        >>> get_URLs()[-2:-1]
+        ['1980.zip']
+
+    """
     list_of_zipped_files = []
 
     html_page = urllib2.urlopen("http://data.gdeltproject.org/events/index.html")
@@ -31,7 +39,12 @@ def get_URLs():
 
 
 def process_URL(item):
-    """Process the URL."""
+    """Process the URL.
+
+    >>> process_URL('20160818.export.CSV.zip')
+    'http://data.gdeltproject.org/events/20160818.export.CSV.zip'
+
+    """
 
     link_to_csv = "http://data.gdeltproject.org/events/" + item
 
@@ -51,7 +64,7 @@ def download_and_unzip_file(URL):
 
 
 def process_csv(file_name):
-    """Get data and store into database."""
+    """Get data."""
 
     protests_data = []
 
@@ -147,5 +160,7 @@ def process_file():
 
 
 if __name__ == "__main__":
-    connect_to_db(app)
-    process_file()
+    from doctest import testmod
+    if testmod().failed == 0:
+        connect_to_db(app)
+        process_file()
