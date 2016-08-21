@@ -1,81 +1,6 @@
-// var map, heatmap;
-
-// function initMap() {
-//   map = new google.maps.Map(document.getElementById('map'), {
-//     zoom: 2,
-//     minZoom: 2,
-//     center: {lat: 45, lng: 10},
-//     // mapTypeId: 'satellite'
-//   });
-
-//   heatmap = new google.maps.visualization.HeatmapLayer({
-//     data: getPoints(),
-//     map: map
-//   });
-// }
-
-// function toggleHeatmap() {
-//   heatmap.setMap(heatmap.getMap() ? null : map);
-// }
-
-// function changeGradient() {
-//   var gradient = [
-//     'rgba(0, 255, 255, 0)',
-//     'rgba(0, 255, 255, 1)',
-//     'rgba(0, 191, 255, 1)',
-//     'rgba(0, 127, 255, 1)',
-//     'rgba(0, 63, 255, 1)',
-//     'rgba(0, 0, 255, 1)',
-//     'rgba(0, 0, 223, 1)',
-//     'rgba(0, 0, 191, 1)',
-//     'rgba(0, 0, 159, 1)',
-//     'rgba(0, 0, 127, 1)',
-//     'rgba(63, 0, 91, 1)',
-//     'rgba(127, 0, 63, 1)',
-//     'rgba(191, 0, 31, 1)',
-//     'rgba(255, 0, 0, 1)'
-//   ]
-//   heatmap.set('gradient', heatmap.get('gradient') ? null : gradient);
-// }
-
-// function changeRadius() {
-//   heatmap.set('radius', heatmap.get('radius') ? null : 20);
-// }
-
-// function changeOpacity() {
-//   heatmap.set('opacity', heatmap.get('opacity') ? null : 0.2);
-// }
-
-
-// // Heatmap data: 500 Points
-// function getPoints(results) {
-//   var list_of_latlng = results
-//   console.log(results);
-//   // for (i=0; i<results.length; i++){
-//   return [
-//     new google.maps.LatLng(45, 10),
-//   ];
-// // }
-// }
-
-// //Grab lat/long data from server using AJAX
-// function getData(){
-//   $.get('/latlng', getPoints);
-//   console.log("result");
-// }
-
-// getData();
-
-
-
 "use strict";
 
 function initialize() {
-            // var mapOptions = {
-            //     zoom: 2,
-            //     minZoom: 2, 
-            //     center: {lat: 45, lng: 10}
-            // };
 
             var center = {lat: 45, lng: 10}
 
@@ -200,42 +125,49 @@ function initialize() {
 /* Add Slider */ 
 
 function createSlider(){
+    var sliderDate = [20160801,20160802,20160803,20160804,20160805,20160806]
     $("#slider-1").slider({
-        min: 20160801,
-        max: 20160815,
-        // step: 1,
+        min: sliderDate[0],
+        max: sliderDate[sliderDate.length-1],
+        step: 1,
         // value: fullDate,
+        slide: function(event, ui){
+            $('#slider-value2').val(sliderDate[ui.value]);
+            // $('#slider-value2').html(sliderDate[ui.value]);
+        },
         change: function( event, ui ) {
             // console.log(ui.value)
             // value: $("#slider-1").slider( "option", "value", ui.value);
-            $('#slider-value').html(ui.value) 
-            //calls changeMap
-            clearMarkers()
+            $('#slider-value').html(ui.value); 
+            //calls changeMap everytime the slider is moved
             changeMap(ui.value);
-        },      
+        },   
     });
     // set the initial environments of the map
     $("#slider-1").slider({
-        value: 20160801,
+        value: sliderDate[0],
     })
 };
 
-createSlider()
+createSlider();
 
-// function getListOfDates(){
-//     $.get('/events.json', function(events){
-//         var events;
-//         var arrayOfDates = [];
+// get list of dates
+function getListOfDates(){
+    $.get('/events', function(events){
+        var events;
+        var arrayOfDates = [];
 
-//         for (var key in events) {
-//             arrayOfDates.push(events[key].fullDate);
+        for (var key in events) {
+        //     arrayOfDates.push(events[key].fullDate);
+            var one_event = events[key]
 
-//         console.log(arrayOfDates);
-//         }
-//     });
-// }
+            arrayOfDates.push(one_event.fullDate);
+    }
+    console.log(arrayOfDates);
+});
+}
 
-// getListOfDates();
+getListOfDates();
 
 
 // Retrieving events information with AJAX
@@ -244,7 +176,6 @@ function changeMap(fullDate){
         var events, marker, html;
 
         //Object that stores the lat/ long and the count of the same 
-        var latLngCount = {};
         var arrayOffullDate = [];
 
         for (var key in events) {
@@ -255,12 +186,12 @@ function changeMap(fullDate){
             // var latlng = [one_event.latitude, one_event.longitude];
             
 
-            // arrayOffullDate.push(events[key].fullDate);
             // console.log(events);
             // console.log(arrayOffullDate);
             // console.log(events[key].fullDate);
 
             // Define the markers
+
             marker = new google.maps.Marker({
                 position: new google.maps.LatLng(one_event.latitude, one_event.longitude),
                 map: map,
@@ -294,12 +225,7 @@ function bindInfoWindow(marker, map, infoWindow, html) {
 }
 }
 
-//clearMarkers used to clear markers for each day
-function clearMarkers(){
-    google.maps.Map.prototype.clearOverlays = function() {
-      
-    }
-}
+
 
 //Place map on browser 
 google.maps.event.addDomListener(window, 'load', initialize);

@@ -4,7 +4,7 @@ import os
 
 from jinja2 import StrictUndefined
 
-from flask import (Flask, render_template, redirect, request, flash, session, jsonify)
+from flask import (Flask, render_template, redirect, request, flash, session, jsonify, g)
 from flask_debugtoolbar import DebugToolbarExtension
 
 from model import connect_to_db, db, Event
@@ -20,6 +20,13 @@ app.secret_key = "ABC"
 # error.
 app.jinja_env.undefined = StrictUndefined
 
+# Add Jasmine testing for JavaScript 
+JS_TESTING_MODE = False
+
+@app.before_request
+def add_tests():
+    g.jasmine_tests = JS_TESTING_MODE
+
 @app.route('/')
 def heat():
     """Heatmap of protests."""
@@ -31,28 +38,41 @@ def heat():
 @app.route('/events/<fullDate>.json')
 #more informative function name events?
 def latlong(fullDate):
-    """JSON information about events."""
+    """JSON information about events based on what the fullDate is."""
 
     events = {
         event.event_id: {
             "fullDate": event.full_date,
-            "latitude":event.latitude,
-            "longitude":event.longitude,
-            "url":event.url
+            "latitude": event.latitude,
+            "longitude": event.longitude,
+            "url": event.url
         }
-        for event in Event.query.filter(Event.full_date == fullDate)}
+        for event in Event.query.filter(Event.full_date == fullDate).all()}
 
     return jsonify(events)
 
-@app.route('/analyze')
-def analyze():
-    """Interactively analyze Gdelt data."""
 
-    return render_template("analyze.html")
+@app.route('/events')
+def getEvents():
+    """JSON information about events."""
+
+    events ={
+        event.full_date: {
+            "fullDate": event.full_date,
+        }
+    for event in sorted(set(db.session.query(Event.full_date).filter(Event.year =='2016')))}
+
+    return jsonify(events)
+   
+
 
 
 
 if __name__ == "__main__":
+    import sys
+    if sys.argv[-1] == "jstest":
+        JS_TESTING_MODE = True
+
     # We have to set debug=True here, since it has to be True at the
     # point that we invoke the DebugToolbarExtension
     app.debug = True
@@ -64,3 +84,8 @@ if __name__ == "__main__":
     # needed for running on vagrant
     app.run(host="0.0.0.0")
     app.run()
+
+
+
+
+
