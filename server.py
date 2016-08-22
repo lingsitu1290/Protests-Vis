@@ -43,6 +43,7 @@ def latlong(fullDate):
     events = {
         event.event_id: {
             "fullDate": event.full_date,
+            "eventCode": event.event_code,
             "latitude": event.latitude,
             "longitude": event.longitude,
             "url": event.url
@@ -54,7 +55,7 @@ def latlong(fullDate):
 
 @app.route('/events')
 def getEvents():
-    """JSON information about events."""
+    """JSON full date information for all events in 2016."""
 
     events ={
         event.full_date: {
@@ -63,7 +64,28 @@ def getEvents():
     for event in sorted(set(db.session.query(Event.full_date).filter(Event.year =='2016')))}
 
     return jsonify(events)
-   
+
+
+@app.route('/analyze')
+def analyze():
+    """ Displays analysis of events based on date given by user. """
+
+    return render_template("analyze.html")
+
+
+@app.route('/eventcode/<fullDate>.json')
+#more informative function name events?
+def eventCode(fullDate):
+    """JSON information about events based on what the fullDate is."""
+
+    events = {
+        event.event_id: {
+            "fullDate": event.full_date,
+            "eventCode": event.event_code,
+        }
+        for event in Event.query.filter(Event.full_date == fullDate).all()}
+
+    return jsonify(events)
 
 
 

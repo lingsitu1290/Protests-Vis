@@ -2,11 +2,22 @@
 {% block content %}
   
 
-    <script type="text/javascript" src="../static/javascript/heatmap.js"></script>
+   <script type="text/javascript" src="../static/javascript/heatmap.js"></script>
 
    <div id="map-canvas"/> </div>
    <div id="slider-1"></div>
    <div id="slider-value"></div>
+   
+{% if g.jasmine_tests %}
+    <!-- Jasmine librarys for testing-->
+    <link rel="stylesheet" href="../static/css/jasmine.min.css">
+    <script src="../static/javascript/jasmine.min.js"></script>
+    <script src="../static/javascript/jasmine-html.min.js"></script>
+    <script src="../static/javascript/boot.min.js"></script>
+
+    <!-- End of import of JavaScript testing. -->
+{% endif %}
+
 {% endblock %}
 
 

@@ -123,12 +123,12 @@ function initialize() {
             map.mapTypes.set('map_style', customMapType);
             map.setMapTypeId('map_style');
 
-// get list of dates
+
+// Cet list of dates
 function getListOfDates(){
     var arrayOfDates = [];
     $.get('/events', function (events){
         var events;
-        // var arrayOfDates = [];
 
         for (var key in events) {
             var one_event = events[key]
@@ -151,6 +151,7 @@ function createSlider(){
         step: 1,
         // value: fullDate,
         slide: function(event, ui){
+            // Want sent values of the sliderDate array
             $('#slider-value2').val(sliderDate[ui.value]);
         },
         change: function( event, ui ) {
@@ -165,7 +166,7 @@ function createSlider(){
             // Pass parts into JavaScript Date method and convert resulting date object to string
             var date = new Date(year + '-' + month + '-' + day).toUTCString();
             
-            // Just want the date without the GMT
+            // Just want the date without the GMT by string splicing
             date=date.split(' ').slice(0, 4).join(' ')
 
             // Show in html
@@ -174,7 +175,7 @@ function createSlider(){
             changeMap(ui.value);
         },   
     });
-    // set the initial environments of the map
+    // Set the initial value of the map to be the first date of sliderDate array
     $("#slider-1").slider({
         value: sliderDate[0],
     })
@@ -193,12 +194,26 @@ function changeMap(fullDate){
         for (var key in events) {
             var one_event = events[key]
 
-            // Define the markers
+            //Define markers
             marker = new google.maps.Marker({
                 position: new google.maps.LatLng(one_event.latitude, one_event.longitude),
                 map: map,
-                opacity: 0.8,
+                opacity: 0.7,
             });
+
+            // Define markers in a circle
+          //   marker = new google.maps.Circle ({
+          //       strokeColor: '#FF0000',
+          //       strokeOpacity: 0.8,
+          //       strokeWeight: 2,
+          //       fillColor: '#FF0000',
+          //       fillOpacity: 0.35,
+          //       map: map,
+          //       center: new google.maps.LatLng(one_event.latitude, one_event.longitude),
+          //       radius: 80000,
+          //       // radius: Math.sqrt(citymap[city].population) * 100
+          // });
+
 
             // Define the content of the infoWindow
             html = (
