@@ -135,10 +135,7 @@ function getListOfDates(){
 
             arrayOfDates.push(parseInt(one_event.fullDate));
     }
-    console.log(arrayOfDates)
-
 });
-    // console.log(Array.isArray(arrayOfDates))
     return arrayOfDates;
 }
 
@@ -155,12 +152,24 @@ function createSlider(){
         // value: fullDate,
         slide: function(event, ui){
             $('#slider-value2').val(sliderDate[ui.value]);
-            // $('#slider-value2').html(sliderDate[ui.value]);
         },
         change: function( event, ui ) {
-            // console.log(ui.value)
-            // value: $("#slider-1").slider( "option", "value", ui.value);
-            $('#slider-value').html(ui.value); 
+            //Store associated value to variable date and turn into string
+            var date = ui.value.toString();
+
+            // Separate into year, month, and day
+            var year = date.substring(0,4)
+            var month = date.substring(5,6)
+            var day = date.substring(6,8)
+
+            // Pass parts into JavaScript Date method and convert resulting date object to string
+            var date = new Date(year + '-' + month + '-' + day).toUTCString();
+            
+            // Just want the date without the GMT
+            date=date.split(' ').slice(0, 4).join(' ')
+
+            // Show in html
+            $('#slider-value').html(date); 
             //calls changeMap everytime the slider is moved
             changeMap(ui.value);
         },   
@@ -173,13 +182,13 @@ function createSlider(){
 
 createSlider();
 
+//Global markersArray
+var markersArray = [];
+
 // Retrieving events information with AJAX
 function changeMap(fullDate){
     $.get('/events/' + fullDate + '.json', function (events) {
         var events, marker, html;
-
-        //Object that stores the lat/ long and the count of the same 
-        var arrayOffullDate = [];
 
         for (var key in events) {
             var one_event = events[key]
@@ -204,6 +213,14 @@ function changeMap(fullDate){
 
         });
     };
+
+
+function clearOverlays() {
+  for (var i = 0; i < markersArray.length; i++ ) {
+    markersArray[i].changeMap(null);
+  }
+  markersArray.length = 0;
+}
 
 // This function is outside the for loop.
 // When a marker is clicked it closes any currently open infowindows
