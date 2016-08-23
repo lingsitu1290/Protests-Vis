@@ -1,128 +1,127 @@
 "use strict";
 
+//Global markersArray
+var markersArray = [];
+var sliderDate = [20160801,20160802,20160803,20160804,20160805,20160806,20160807,20160808,20160809,20160810,20160811,20160812,20160813,20160814,20160815,20160816, 20160817, 20160818]
+
+var map = new google.maps.Map(document.getElementById('map-canvas'),{
+    zoom: 2,
+    minZoom: 2, 
+    center: {lat: 45, lng: 10},
+    // zoomControl: false,
+    streetViewControl: false,
+    scrollwheel: false
+});
+
+var infoWindow = new google.maps.InfoWindow({
+    width: 150
+});
+
 function initialize() {
-
-            var center = {lat: 45, lng: 10}
-
-            var map = new google.maps.Map(
-                    document.getElementById('map-canvas'),{
-                    zoom: 2,
-                    minZoom: 2, 
-                    center: center,
-                    // zoomControl: false,
-                    streetViewControl: false,
-                    scrollwheel: false
-                });
-
-            var infoWindow = new google.maps.InfoWindow({
-                width: 150
-            });
-
-            // Add Style
-            var styles = [
+    // Add Style
+    var styles = [
+    {
+        "featureType": "administrative",
+        "elementType": "all",
+        "stylers": [
             {
-                "featureType": "administrative",
-                "elementType": "all",
-                "stylers": [
-                    {
-                        "visibility": "on"
-                    },
-                    {
-                        "lightness": 33
-                    }
-                ]
+                "visibility": "on"
             },
             {
-                "featureType": "landscape",
-                "elementType": "all",
-                "stylers": [
-                    {
-                        "color": "#f2e5d4"
-                    }
-                ]
-            },
-            {
-                "featureType": "poi.park",
-                "elementType": "geometry",
-                "stylers": [
-                    {
-                        "color": "#c5dac6"
-                    }
-                ]
-            },
-            {
-                "featureType": "poi.park",
-                "elementType": "labels",
-                "stylers": [
-                    {
-                        "visibility": "on"
-                    },
-                    {
-                        "lightness": 20
-                    }
-                ]
-            },
-            {
-                "featureType": "road",
-                "elementType": "all",
-                "stylers": [
-                    {
-                        "lightness": 20
-                    }
-                ]
-            },
-            {
-                "featureType": "road.highway",
-                "elementType": "geometry",
-                "stylers": [
-                    {
-                        "color": "#c5c6c6"
-                    }
-                ]
-            },
-            {
-                "featureType": "road.arterial",
-                "elementType": "geometry",
-                "stylers": [
-                    {
-                        "color": "#e4d7c6"
-                    }
-                ]
-            },
-            {
-                "featureType": "road.local",
-                "elementType": "geometry",
-                "stylers": [
-                    {
-                        "color": "#fbfaf7"
-                    }
-                ]
-            },
-            {
-                "featureType": "water",
-                "elementType": "all",
-                "stylers": [
-                    {
-                        "visibility": "on"
-                    },
-                    {
-                        "color": "#acbcc9"
-                    }
-                ]
+                "lightness": 33
             }
-        ];
+        ]
+    },
+    {
+        "featureType": "landscape",
+        "elementType": "all",
+        "stylers": [
+            {
+                "color": "#f2e5d4"
+            }
+        ]
+    },
+    {
+        "featureType": "poi.park",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "color": "#c5dac6"
+            }
+        ]
+    },
+    {
+        "featureType": "poi.park",
+        "elementType": "labels",
+        "stylers": [
+            {
+                "visibility": "on"
+            },
+            {
+                "lightness": 20
+            }
+        ]
+    },
+    {
+        "featureType": "road",
+        "elementType": "all",
+        "stylers": [
+            {
+                "lightness": 20
+            }
+        ]
+    },
+    {
+        "featureType": "road.highway",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "color": "#c5c6c6"
+            }
+        ]
+    },
+    {
+        "featureType": "road.arterial",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "color": "#e4d7c6"
+            }
+        ]
+    },
+    {
+        "featureType": "road.local",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "color": "#fbfaf7"
+            }
+        ]
+    },
+    {
+        "featureType": "water",
+        "elementType": "all",
+        "stylers": [
+            {
+                "visibility": "on"
+            },
+            {
+                "color": "#acbcc9"
+            }
+        ]
+    }];
 
-            var styledMapOptions = {
-              name: 'Custom Style'
-            };
+    var styledMapOptions = {
+      name: 'Custom Style'
+    };
 
-            var customMapType = new google.maps.StyledMapType(
-                    styles,
-                    styledMapOptions);
+    var customMapType = new google.maps.StyledMapType(
+            styles,
+            styledMapOptions);
 
-            map.mapTypes.set('map_style', customMapType);
-            map.setMapTypeId('map_style');
-
+    map.mapTypes.set('map_style', customMapType);
+    map.setMapTypeId('map_style');
+};
 
 // Cet list of dates
 function getListOfDates(){
@@ -134,46 +133,21 @@ function getListOfDates(){
             var one_event = events[key]
 
             arrayOfDates.push(parseInt(one_event.fullDate));
-    }
-});
+        }
+    });
     return arrayOfDates;
 }
 
-getListOfDates();
 
 /* Add Slider */ 
-
 function createSlider(){
-    var sliderDate = [20160801,20160802,20160803,20160804,20160805,20160806,20160807, 20160808,20160809,20160810,20160811,20160812,20160813,20160814,20160815,20160816, 20160817, 20160818]
     $("#slider-1").slider({
         min: sliderDate[0],
         max: sliderDate[sliderDate.length-1],
         step: 1,
         // value: fullDate,
-        slide: function(event, ui){
-            // Want sent values of the sliderDate array
-            $('#slider-value2').val(sliderDate[ui.value]);
-        },
-        change: function( event, ui ) {
-            //Store associated value to variable date and turn into string
-            var date = ui.value.toString();
-
-            // Separate into year, month, and day
-            var year = date.substring(0,4)
-            var month = date.substring(5,6)
-            var day = date.substring(6,8)
-
-            // Pass parts into JavaScript Date method and convert resulting date object to string
-            var date = new Date(year + '-' + month + '-' + day).toUTCString();
-            
-            // Just want the date without the GMT by string splicing
-            date=date.split(' ').slice(0, 4).join(' ')
-
-            // Show in html
-            $('#slider-value').html(date); 
-            //calls changeMap everytime the slider is moved
-            changeMap(ui.value);
-        },   
+        slide: onSliderSlide,
+        change: onSliderChange, 
     });
     // Set the initial value of the map to be the first date of sliderDate array
     $("#slider-1").slider({
@@ -181,14 +155,46 @@ function createSlider(){
     })
 };
 
-createSlider();
+function onSliderSlide(event, ui){
+    // Want sent values of the sliderDate array
+    $('#slider-value2').val(sliderDate[ui.value]);
+}
 
-//Global markersArray
-var markersArray = [];
+function onSliderChange(event, ui){
+    //Store associated value to variable date and turn into string
+    var date = ui.value.toString();
+
+    // Separate into year, month, and day
+    var year = date.substring(0,4)
+    var month = date.substring(5,6)
+    var day = date.substring(6,8)
+
+    // Pass parts into JavaScript Date method and convert resulting date object to string
+    var date = new Date(year + '-' + month + '-' + day).toUTCString();
+    
+    // Just want the date without the GMT by string splicing
+    date=date.split(' ').slice(0, 4).join(' ')
+
+    // Show in html
+    $('#slider-value').html(date);
+    // Clears all the markers on the map
+    clearMap(); 
+    //calls changeMap everytime the slider is moved
+    changeMap(ui.value);
+}
+
+// TODO : To clear the map 
+function clearMap(){
+    for (var i = 0; i < markersArray.length; i++){
+        markersArray[i].setMap(null);
+    }
+    markersArray = [];
+}
 
 // Retrieving events information with AJAX
 function changeMap(fullDate){
-    $.get('/events/' + fullDate + '.json', function (events) {
+
+    $.get('/events/' + fullDate + '.json', function (events){
         var events, marker, html;
 
         for (var key in events) {
@@ -200,6 +206,8 @@ function changeMap(fullDate){
                 map: map,
                 opacity: 0.7,
             });
+
+            markersArray.push(marker);
 
             // Define markers in a circle
           //   marker = new google.maps.Circle ({
@@ -229,14 +237,6 @@ function changeMap(fullDate){
         });
     };
 
-
-function clearOverlays() {
-  for (var i = 0; i < markersArray.length; i++ ) {
-    markersArray[i].changeMap(null);
-  }
-  markersArray.length = 0;
-}
-
 // This function is outside the for loop.
 // When a marker is clicked it closes any currently open infowindows
 // Sets the content for the new marker with the content passed through
@@ -246,17 +246,10 @@ function bindInfoWindow(marker, map, infoWindow, html) {
       infoWindow.close();
       infoWindow.setContent(html);
       infoWindow.open(map, marker);
-  });
+    });
 }
-}
-
-
 
 //Place map on browser 
+getListOfDates();
+createSlider();
 google.maps.event.addDomListener(window, 'load', initialize);
-
-
-
-
-
-
