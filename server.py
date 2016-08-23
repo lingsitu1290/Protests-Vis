@@ -82,7 +82,7 @@ def eventCode(fullDate):
     eventCode142 = Event.query.filter(Event.full_date == fullDate, Event.event_code =='142').all()
     eventCode143 = Event.query.filter(Event.full_date == fullDate, Event.event_code =='143').all()
     eventCode144 = Event.query.filter(Event.full_date == fullDate, Event.event_code =='144').all()
-    eventCode145 =Event.query.filter(Event.full_date == fullDate, Event.event_code =='145').all()
+    eventCode145 = Event.query.filter(Event.full_date == fullDate, Event.event_code =='145').all()
 
     data_dict = {
                 "labels": [
@@ -94,8 +94,7 @@ def eventCode(fullDate):
                 ],
                 "datasets": [
                     {
-                        # "data": [len(eventCode141), len(eventCode142), len(eventCode143), len(eventCode144), len(eventCode145)],
-                        "data": [200, 50, 100, 20, 10],
+                        "data": [len(eventCode141), len(eventCode142), len(eventCode143), len(eventCode144), len(eventCode145)],
                         "backgroundColor": [
                             "#FF6384",
                             "#4BC0C0",
@@ -114,7 +113,6 @@ def eventCode(fullDate):
             }
 
     return jsonify(data_dict)
-
 
 
 
