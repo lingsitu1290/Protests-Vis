@@ -124,7 +124,7 @@ function initialize() {
 };
 
 // Cet list of dates
-function getListOfDates(){
+function getArrayOfDates(){
     var arrayOfDates = [];
     $.get('/events', function (events){
 
@@ -133,7 +133,7 @@ function getListOfDates(){
 
             arrayOfDates.push(parseInt(one_event.fullDate));
         }
-    // console.log(arrayOfDates);
+    // Create the slider with the values from array date
     createSlider(arrayOfDates);
 });
 }
@@ -142,51 +142,47 @@ function getListOfDates(){
 /* Add Slider */ 
 function createSlider(sliderDate){
     $("#slider-1").slider({
-        min: sliderDate[0],
-        max: sliderDate[sliderDate.length-1],
-        // value: fullDate,
-        slide: onSliderSlide,
-        change: onSliderChange, 
+        min: 0,
+        max: sliderDate.length-1,
+        
+        // On slider slide, changes the values 
+        slide: function(event, ui){
+            // Want set values of the sliderDate array
+            $('#slider-value').val(sliderDate[ui.value]);
+            },
+
+        // On slider change, parses and displays date, clears markers, and change markers   
+        change: function (event, ui){
+            //Store associated value to variable date and turn into string
+            // console.log(ui.value);
+            var date = sliderDate[ui.value].toString();
+
+            // Separate into year, month, and day
+            var year = date.substring(0,4)
+            var month = date.substring(5,6)
+            var day = date.substring(6,8)
+
+            // console.log(year, month, day);
+
+            // Pass parts into JavaScript Date method and convert resulting date object to string
+            var date = new Date(year + '-' + month + '-' + day).toUTCString();
+            
+            // Just want the date without the GMT by string splicing
+            date=date.split(' ').slice(0, 4).join(' ')
+
+            // Show in html
+            $('#slider-value').html(date);
+            // Clears all the markers on the map
+            clearMap(); 
+            //calls changeMap everytime the slider is moved
+            changeMap(sliderDate[ui.value]);
+            }, 
     });
     // Set the initial value of the map to be the first date of sliderDate array
     $("#slider-1").slider({
-        value: sliderDate[0],
+        value: 0,
     })
 };
-
-function onSliderSlide(event, ui){
-    // Want set values of the sliderDate array
-    console.log(ui.value);
-    // console.log(sliderDate[ui.value]);
-    $('#slider-value').val(sliderDate[ui.value]);
-    $('#slider-value').html(sliderDate[ui.value]);
-}
-
-function onSliderChange(event, ui){
-    //Store associated value to variable date and turn into string
-    // console.log(ui.value);
-    var date = ui.value.toString();
-
-    // Separate into year, month, and day
-    var year = date.substring(0,4)
-    var month = date.substring(5,6)
-    var day = date.substring(6,8)
-
-    // console.log(year, month, day);
-
-    // Pass parts into JavaScript Date method and convert resulting date object to string
-    var date = new Date(year + '-' + month + '-' + day).toUTCString();
-    
-    // Just want the date without the GMT by string splicing
-    date=date.split(' ').slice(0, 4).join(' ')
-
-    // Show in html
-    $('#slider-value').html(date);
-    // Clears all the markers on the map
-    clearMap(); 
-    //calls changeMap everytime the slider is moved
-    changeMap(ui.value);
-}
 
 // TODO : To clear the map 
 function clearMap(){
@@ -255,6 +251,6 @@ function bindInfoWindow(marker, map, infoWindow, html) {
 }
 
 //Place map on browser 
-getListOfDates();
+getArrayOfDates();
 
 google.maps.event.addDomListener(window, 'load', initialize);
