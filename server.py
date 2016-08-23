@@ -78,6 +78,7 @@ def analyze():
 def eventCode(fullDate):
     """JSON information about events based on what the fullDate is."""
 
+    eventCode140 = Event.query.filter(Event.full_date == fullDate, Event.event_code =='140').all()
     eventCode141 = Event.query.filter(Event.full_date == fullDate, Event.event_code =='141').all()
     eventCode142 = Event.query.filter(Event.full_date == fullDate, Event.event_code =='142').all()
     eventCode143 = Event.query.filter(Event.full_date == fullDate, Event.event_code =='143').all()
@@ -86,6 +87,7 @@ def eventCode(fullDate):
 
     data_dict = {
                 "labels": [
+                    "140 : Engage in Political dissent",
                     "141 : Demonstrate or rally",
                     "142 : Conduct hunger strike",
                     "143 : Conduct strike or boycott",
@@ -94,20 +96,28 @@ def eventCode(fullDate):
                 ],
                 "datasets": [
                     {
-                        "data": [len(eventCode141), len(eventCode142), len(eventCode143), len(eventCode144), len(eventCode145)],
+                        "data": [len(eventCode140), 
+                                 len(eventCode141), 
+                                 len(eventCode142), 
+                                 len(eventCode143), 
+                                 len(eventCode144), 
+                                 len(eventCode145)],
                         "backgroundColor": [
                             "#FF6384",
                             "#4BC0C0",
                             "#FFCE56",
                             "#E7E9ED",
-                            "#36A2EB"
+                            "#36A2EB",
+                            "#ccb3ff",
+
                         ],
                         "hoverBackgroundColor": [
                             "#FF6384",
                             "#4BC0C0",
                             "#FFCE56",
                             "#E7E9ED",
-                            "#36A2EB"
+                            "#36A2EB",
+                            "#ccb3ff",
                         ]
                     }]
             }

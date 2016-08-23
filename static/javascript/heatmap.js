@@ -134,7 +134,7 @@ function getListOfDates(){
 
             arrayOfDates.push(parseInt(one_event.fullDate));
         }
-    });
+});
     return arrayOfDates;
 }
 
@@ -156,8 +156,8 @@ function createSlider(){
 };
 
 function onSliderSlide(event, ui){
-    // Want sent values of the sliderDate array
-    $('#slider-value2').val(sliderDate[ui.value]);
+    // Want set values of the sliderDate array
+    $('#slider-value').val(sliderDate[ui.value]);
 }
 
 function onSliderChange(event, ui){
