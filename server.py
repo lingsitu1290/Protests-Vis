@@ -78,14 +78,42 @@ def analyze():
 def eventCode(fullDate):
     """JSON information about events based on what the fullDate is."""
 
-    events = {
-        event.event_id: {
-            "fullDate": event.full_date,
-            "eventCode": event.event_code,
-        }
-        for event in Event.query.filter(Event.full_date == fullDate).all()}
+    eventCode141 = Event.query.filter(Event.full_date == fullDate, Event.event_code =='141').all()
+    eventCode142 = Event.query.filter(Event.full_date == fullDate, Event.event_code =='142').all()
+    eventCode143 = Event.query.filter(Event.full_date == fullDate, Event.event_code =='143').all()
+    eventCode144 = Event.query.filter(Event.full_date == fullDate, Event.event_code =='144').all()
+    eventCode145 =Event.query.filter(Event.full_date == fullDate, Event.event_code =='145').all()
 
-    return jsonify(events)
+    data_dict = {
+                "labels": [
+                    "141 : Demonstrate or rally",
+                    "142 : Conduct hunger strike",
+                    "143 : Conduct strike or boycott",
+                    "144 : Obstruct passage, block",
+                    "145 : Protest violently, riot",
+                ],
+                "datasets": [
+                    {
+                        # "data": [len(eventCode141), len(eventCode142), len(eventCode143), len(eventCode144), len(eventCode145)],
+                        "data": [200, 50, 100, 20, 10],
+                        "backgroundColor": [
+                            "#FF6384",
+                            "#4BC0C0",
+                            "#FFCE56",
+                            "#E7E9ED",
+                            "#36A2EB"
+                        ],
+                        "hoverBackgroundColor": [
+                            "#FF6384",
+                            "#4BC0C0",
+                            "#FFCE56",
+                            "#E7E9ED",
+                            "#36A2EB"
+                        ]
+                    }]
+            }
+
+    return jsonify(data_dict)
 
 
 
