@@ -2,7 +2,7 @@
 
 //Global markersArray
 var markersArray = [];
-var sliderDate = [20160801,20160802,20160803,20160804,20160805,20160806,20160807,20160808,20160809,20160810,20160811,20160812,20160813,20160814,20160815,20160816, 20160817, 20160818]
+var sliderDate = [];
 
 var map = new google.maps.Map(document.getElementById('map-canvas'),{
     zoom: 2,
@@ -127,24 +127,23 @@ function initialize() {
 function getListOfDates(){
     var arrayOfDates = [];
     $.get('/events', function (events){
-        var events;
 
         for (var key in events) {
             var one_event = events[key]
 
             arrayOfDates.push(parseInt(one_event.fullDate));
         }
+    // console.log(arrayOfDates);
+    createSlider(arrayOfDates);
 });
-    return arrayOfDates;
 }
 
 
 /* Add Slider */ 
-function createSlider(){
+function createSlider(sliderDate){
     $("#slider-1").slider({
         min: sliderDate[0],
         max: sliderDate[sliderDate.length-1],
-        step: 1,
         // value: fullDate,
         slide: onSliderSlide,
         change: onSliderChange, 
@@ -157,17 +156,23 @@ function createSlider(){
 
 function onSliderSlide(event, ui){
     // Want set values of the sliderDate array
+    console.log(ui.value);
+    // console.log(sliderDate[ui.value]);
     $('#slider-value').val(sliderDate[ui.value]);
+    $('#slider-value').html(sliderDate[ui.value]);
 }
 
 function onSliderChange(event, ui){
     //Store associated value to variable date and turn into string
+    // console.log(ui.value);
     var date = ui.value.toString();
 
     // Separate into year, month, and day
     var year = date.substring(0,4)
     var month = date.substring(5,6)
     var day = date.substring(6,8)
+
+    // console.log(year, month, day);
 
     // Pass parts into JavaScript Date method and convert resulting date object to string
     var date = new Date(year + '-' + month + '-' + day).toUTCString();
@@ -251,5 +256,5 @@ function bindInfoWindow(marker, map, infoWindow, html) {
 
 //Place map on browser 
 getListOfDates();
-createSlider();
+
 google.maps.event.addDomListener(window, 'load', initialize);
