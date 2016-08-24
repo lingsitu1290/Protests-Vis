@@ -1,14 +1,14 @@
+"user strict";
+
 var options = { responsive: true };
 
 var ctx_donut = $("#donutChart").get(0).getContext("2d");
 
-// grab fullDate from user!!!
-// var month; 
-// var day;
-
 // Make donut chart of percentage of different types of events for that day
 function makeDonut(){
-    $.get('/eventcode/' + '20160811' + '.json', function (data) {
+    var month = $("#month").val();
+    var day = $("#day").val();
+    $.get('/eventcode/' + '2016' + month + day + '.json', function (data) {
         var myDonutChart = new Chart(ctx_donut, {
                                                 type: 'doughnut',
                                                 data: data,
@@ -18,4 +18,4 @@ function makeDonut(){
     });
 }
 
-makeDonut();
+document.getElementById("submit").addEventListener("click", makeDonut);
