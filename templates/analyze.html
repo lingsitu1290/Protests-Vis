@@ -12,19 +12,20 @@
     <h2> Protests in 2016 </h2>
 
     <form>
-        <label>What day would you like to analyze?<br>
-            <input type="text" name="year">
-            </input>
+        <label>What month would you like to analyze?<br>
+            <input type="text" name="month"></input>
         </label><br>
-            <input type="submit">
-            </input>
+        <label>What day would you like to analyze?<br>
+            <input type="text" name="day"></input>
+        </label><br>
+            <input type="submit"></input>
     </form>
 
 
     <div class="event-chart">
       <canvas id="donutChart"></canvas>
       <div id="donutlegend" class="chart-legend"></div>
-    <div>
+    </div>
 
     <script type="text/javascript" src="../static/javascript/analyze.js">
     </script>
