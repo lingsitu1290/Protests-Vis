@@ -184,7 +184,7 @@ function createSlider(sliderDate){
     })
 };
 
-// TODO : To clear the map 
+// To clear the map 
 function clearMap(){
     for (var i = 0; i < markersArray.length; i++){
         markersArray[i].setMap(null);
@@ -197,44 +197,67 @@ function changeMap(fullDate){
 
     $.get('/events/' + fullDate + '.json', function (events){
         var events, marker, html;
+        var locations = {};
 
         for (var key in events) {
             var one_event = events[key]
 
+            var latitude = parseInt(one_event.latitude);
+            var longitude = parseInt(one_event.longitude);
+            var count = 1; // count of number of latlng
+            var url = one_event.url;
+
+            var latlng = [latitude, longitude];
+
+            if (latlng in locations) {
+                // locations[latlng] = {'count': 0,'url':'None'};
+                locations[latlng]['count'] = locations[latlng]['count'] + 1;
+                if (!(url in locations[latlng]['url'])){
+                    locations[latlng]['url'].push(url);
+                };
+            } else {
+                locations[latlng] = {'count': 0,'url':[]};
+                locations[latlng]['count'] = 1;
+                locations[latlng]['url'].push(url);
+            };
+
             //Define markers
-            marker = new google.maps.Marker({
-                position: new google.maps.LatLng(one_event.latitude, one_event.longitude),
+            // marker = new google.maps.Marker({
+            //     position: new google.maps.LatLng(latitude, longitude),
+            //     map: map,
+            //     opacity: 0.7,
+            // });
+        
+            // Define markers in a circle
+            marker = new google.maps.Circle ({
+                strokeColor: '#FF0000',
+                // strokeOpacity: 0.8,
+                // strokeWeight: 1,
+                fillColor: '#FF0000',
+                fillOpacity: 0.1,
                 map: map,
-                opacity: 0.7,
+                center: new google.maps.LatLng(latitude, longitude),
+                radius: locations[latlng]['count'] * 8000,
+                // radius: Math.sqrt(citymap[city].population) * 100
             });
 
             markersArray.push(marker);
 
-            // Define markers in a circle
-          //   marker = new google.maps.Circle ({
-          //       strokeColor: '#FF0000',
-          //       strokeOpacity: 0.8,
-          //       strokeWeight: 2,
-          //       fillColor: '#FF0000',
-          //       fillOpacity: 0.35,
-          //       map: map,
-          //       center: new google.maps.LatLng(one_event.latitude, one_event.longitude),
-          //       radius: 80000,
-          //       // radius: Math.sqrt(citymap[city].population) * 100
-          // });
-
+            var arrayOfURLs = (locations[latlng]['url'])
 
             // Define the content of the infoWindow
-            html = (
-                '<div class="window-content">' +
-                    '<a target="_blank" href='+ one_event.url + '>' + one_event.url + '</a>' +
-                '</div>');
-
+            for (var i = 0; i < arrayOfURLs.length; i++){
+                html = (
+                    '<div class="window-content">' +
+                        '<a target="_blank" href='+ arrayOfURLs[i] + '>' + arrayOfURLs[i] + '</a>' +
+                    '</div>');
+            };
             // Inside the loop we call bindInfoWindow passing it the marker,
             // map, infoWindow and contentString
             bindInfoWindow(marker, map, infoWindow, html);
         }
-
+        console.log(fullDate);
+        console.log(locations);
         });
     };
 
