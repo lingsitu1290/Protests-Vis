@@ -227,16 +227,20 @@ function changeMap(fullDate){
             //     map: map,
             //     opacity: 0.7,
             // });
+            }
+              
+            for (var latlng in locations) {
+                latlng = latlng.split(',');
         
             // Define markers in a circle
             marker = new google.maps.Circle ({
                 strokeColor: '#FF0000',
                 // strokeOpacity: 0.8,
-                // strokeWeight: 1,
+                strokeWeight: 0.2,
                 fillColor: '#FF0000',
-                fillOpacity: 0.1,
+                fillOpacity: 0.2,
                 map: map,
-                center: new google.maps.LatLng(latitude, longitude),
+                center: new google.maps.LatLng(latlng[0], latlng[1]),
                 radius: locations[latlng]['count'] * 8000,
                 // radius: Math.sqrt(citymap[city].population) * 100
             });
@@ -244,6 +248,8 @@ function changeMap(fullDate){
             markersArray.push(marker);
 
             var arrayOfURLs = (locations[latlng]['url'])
+
+            console.log(arrayOfURLs);
 
             // Define the content of the infoWindow
             for (var i = 0; i < arrayOfURLs.length; i++){
@@ -256,8 +262,9 @@ function changeMap(fullDate){
             // map, infoWindow and contentString
             bindInfoWindow(marker, map, infoWindow, html);
         }
+
         console.log(fullDate);
-        console.log(locations);
+        // console.log(locations);
         });
     };
 
