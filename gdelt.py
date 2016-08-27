@@ -25,6 +25,8 @@ def get_URLs():
         ['1983.zip', '1982.zip', '1981.zip', '1980.zip']
         >>> get_URLs()[-2:-1]
         ['1980.zip']
+        >>> get_URLs()[-6:-1]
+        ['1984.zip', '1983.zip', '1982.zip', '1981.zip', '1980.zip']
 
     """
     list_of_zipped_files = []
@@ -41,8 +43,10 @@ def get_URLs():
 def process_URL(item):
     """Process the URL.
 
-    >>> process_URL('20160818.export.CSV.zip')
-    'http://data.gdeltproject.org/events/20160818.export.CSV.zip'
+        >>> process_URL('20160818.export.CSV.zip')
+        'http://data.gdeltproject.org/events/20160818.export.CSV.zip'
+        >>> process_URL('20160111.export.CSV.zip')
+        'http://data.gdeltproject.org/events/20160111.export.CSV.zip'
 
     """
 
@@ -112,7 +116,9 @@ def load_data(protests_data):
         full_date = protest[1]
         year = protest[3]
         event_code = protest[27]
+        # goldstein_scale = protest[30]
         full_location = protest[36]
+        # country_code = protest[37]
         latitude = protest[39]
         longitude = protest[40]
         url = protest[57]
@@ -123,8 +129,10 @@ def load_data(protests_data):
         event = Event(event_id=event_id,
                       full_date=full_date,
                       year=year, 
-                      event_code=event_code, 
+                      event_code=event_code,
+                      # goldstein_scale=goldstein_scale,
                       full_location=full_location,
+                      # country_code=country_code,
                       latitude=latitude,
                       longitude=longitude,
                       url=url)

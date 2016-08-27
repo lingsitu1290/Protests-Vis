@@ -1,0 +1,23 @@
+Gdelt Doctests 
+------------
+
+Gdelt contains functions for downloading CSV data files from the gdelt webpage, unzipping, loading the data into a postgres database, and then deleting the file. The following are doctests to tests certain the get_URLs and process_URL functions.
+
+Import functions form gdelt.
+
+    >>> from gdelt import get_URLs
+    >>> from gdelt import process_URL
+
+The following for doctests for get_URLs and process_URL: 
+
+    >>> get_URLs()[-5:-1]
+    ['1983.zip', '1982.zip', '1981.zip', '1980.zip']
+    >>> get_URLs()[-2:-1]
+    ['1980.zip']
+    >>> get_URLs()[-6:-1]
+    ['1984.zip', '1983.zip', '1982.zip', '1981.zip', '1980.zip']
+
+    >>> process_URL('20160818.export.CSV.zip')
+    'http://data.gdeltproject.org/events/20160818.export.CSV.zip'
+    >>> process_URL('20160111.export.CSV.zip')
+    'http://data.gdeltproject.org/events/20160111.export.CSV.zip'
