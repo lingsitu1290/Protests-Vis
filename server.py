@@ -87,12 +87,13 @@ def eventCode(fullDate):
 
     data_dict = {
                 "labels": [
-                    "140 : Engage in Political dissent",
-                    "141 : Demonstrate or rally",
-                    "142 : Conduct hunger strike",
-                    "143 : Conduct strike or boycott",
-                    "144 : Obstruct passage, block",
-                    "145 : Protest violently, riot",
+                    # 140, 141, 142, 143, 144, 145
+                    "Engage in Political dissent",
+                    "Demonstrate or rally",
+                    "Conduct hunger strike",
+                    "Conduct strike or boycott",
+                    "Obstruct passage, block",
+                    "Protest violently, riot",
                 ],
                 "datasets": [
                     {
@@ -120,11 +121,54 @@ def eventCode(fullDate):
                             "#ccb3ff",
                         ]
                     }]
-            }
+            };
 
     return jsonify(data_dict)
 
+@app.route('/yearchart.json')
+#more informative function name events?
+def year_data():
+    """JSON information about events based on what the fullDate is."""
+    
+    jan = Event.query.filter(Event.full_date.like('201601%'))
+    feb = Event.query.filter(Event.full_date.like('201602%'))
+    mar = Event.query.filter(Event.full_date.like('201603%'))
+    apr = Event.query.filter(Event.full_date.like('201604%'))
+    may = Event.query.filter(Event.full_date.like('201605%'))
+    june = Event.query.filter(Event.full_date.like('201606%'))
+    july = Event.query.filter(Event.full_date.like('201607%'))
+    aug = Event.query.filter(Event.full_date.like('201608%'))
 
+    data_dict = {
+                "labels": ["January", "February", "March", "April", "May", "June", "July", "August"],
+                "datasets": [
+                    {
+                        "label": "Protests in 2016 by Month",
+                        "backgroundColor": [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                        ],
+                        "borderColor": [
+                            'rgba(255,99,132,1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)',
+                            'rgba(54, 162, 235, 0.2)',
+                        ],
+                        "borderWidth": 1,
+                        "data": [len(jan.all()), len(feb.all()), len(mar.all()), len(apr.all()), len(may.all()), len(june.all()), len(july.all()), len(aug.all())]
+                    }
+                ]
+            };
+
+    return jsonify(data_dict)
 
 if __name__ == "__main__":
     import sys
@@ -142,8 +186,3 @@ if __name__ == "__main__":
     # needed for running on vagrant
     app.run(host="0.0.0.0")
     app.run()
-
-
-
-
-
