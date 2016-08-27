@@ -220,50 +220,44 @@ function changeMap(fullDate){
                 locations[latlng]['count'] = 1;
                 locations[latlng]['url'].push(url);
             };
+            }
 
-            //Define markers
-            // marker = new google.maps.Marker({
-            //     position: new google.maps.LatLng(latitude, longitude),
-            //     map: map,
-            //     opacity: 0.7,
-            // });
-            }              
-            for (var latlng in locations) {
-                latlng = latlng.split(',');
-        
-            // Define markers in a circle
-            marker = new google.maps.Circle ({
-                strokeColor: '#FF0000',
-                // strokeOpacity: 0.8,
-                strokeWeight: 0.2,
-                fillColor: '#FF0000',
-                fillOpacity: 0.2,
-                map: map,
-                center: new google.maps.LatLng(latlng[0], latlng[1]),
-                radius: locations[latlng]['count'] * 11000,
-                // radius: Math.sqrt(citymap[city].population) * 100
-            });
+        // Loop through each location to place markers 
 
-            markersArray.push(marker);
-
-            var arrayOfURLs = (locations[latlng]['url'])
-
-            // console.log(locations[latlng]['url']);
-
-            // // Define the content of the infoWindow
-            for (var i = 0; i < arrayOfURLs.length; i++){
-            html = (
-                '<div class="window-content">' +
-                    '<a target="_blank" href='+ arrayOfURLs[i] + '>' + arrayOfURLs[i] + '</a>' +
-                '</div>');
-            };
-
-            // Inside the loop we call bindInfoWindow passing it the marker,
-            // map, infoWindow and contentString
-            bindInfoWindow(marker, map, infoWindow, html);
-        }
+        for (var latlng in locations) {
+            latlng = latlng.split(',');
+    
+        // Define markers in a circle
+        marker = new google.maps.Circle ({
+            strokeColor: '#FF0000',
+            // strokeOpacity: 0.8,
+            strokeWeight: 0.2,
+            fillColor: '#FF0000',
+            fillOpacity: 0.2,
+            map: map,
+            center: new google.maps.LatLng(latlng[0], latlng[1]),
+            position: new google.maps.LatLng(latlng[0], latlng[1]),
+            radius: locations[latlng]['count'] * 11000,
         });
-    };
+
+        console.log(marker);
+
+        markersArray.push(marker);
+
+        var arrayOfURLs = (locations[latlng]['url'])
+
+        html = (
+            '<div class="window-content">' +
+                '<a target="_blank" href='+ arrayOfURLs[0] + '>' + arrayOfURLs[0] + '</a>' +
+            '</div>');
+
+
+        // Inside the loop we call bindInfoWindow passing it the marker,
+        // map, infoWindow and contentString
+        bindInfoWindow(marker, map, infoWindow, html);
+    }
+    });
+};
 
 // This function is outside the for loop.
 // When a marker is clicked it closes any currently open infowindows
