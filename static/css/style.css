@@ -53,3 +53,8 @@ body {
 #slider-1 {
     width: 90%
 }
+
+.window-content {
+    color: #04162b;
+    width: 500px;
+}
