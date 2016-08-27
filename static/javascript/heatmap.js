@@ -17,111 +17,109 @@ var infoWindow = new google.maps.InfoWindow({
     width: 150
 });
 
-function initialize() {
-    // Add Style
-    var styles = [
-    {
-        "featureType": "administrative",
-        "elementType": "all",
-        "stylers": [
-            {
-                "visibility": "on"
-            },
-            {
-                "lightness": 33
-            }
-        ]
-    },
-    {
-        "featureType": "landscape",
-        "elementType": "all",
-        "stylers": [
-            {
-                "color": "#f2e5d4"
-            }
-        ]
-    },
-    {
-        "featureType": "poi.park",
-        "elementType": "geometry",
-        "stylers": [
-            {
-                "color": "#c5dac6"
-            }
-        ]
-    },
-    {
-        "featureType": "poi.park",
-        "elementType": "labels",
-        "stylers": [
-            {
-                "visibility": "on"
-            },
-            {
-                "lightness": 20
-            }
-        ]
-    },
-    {
-        "featureType": "road",
-        "elementType": "all",
-        "stylers": [
-            {
-                "lightness": 20
-            }
-        ]
-    },
-    {
-        "featureType": "road.highway",
-        "elementType": "geometry",
-        "stylers": [
-            {
-                "color": "#c5c6c6"
-            }
-        ]
-    },
-    {
-        "featureType": "road.arterial",
-        "elementType": "geometry",
-        "stylers": [
-            {
-                "color": "#e4d7c6"
-            }
-        ]
-    },
-    {
-        "featureType": "road.local",
-        "elementType": "geometry",
-        "stylers": [
-            {
-                "color": "#fbfaf7"
-            }
-        ]
-    },
-    {
-        "featureType": "water",
-        "elementType": "all",
-        "stylers": [
-            {
-                "visibility": "on"
-            },
-            {
-                "color": "#acbcc9"
-            }
-        ]
-    }];
+var styles = [
+{
+    "featureType": "administrative",
+    "elementType": "all",
+    "stylers": [
+        {
+            "visibility": "on"
+        },
+        {
+            "lightness": 33
+        }
+    ]
+},
+{
+    "featureType": "landscape",
+    "elementType": "all",
+    "stylers": [
+        {
+            "color": "#f2e5d4"
+        }
+    ]
+},
+{
+    "featureType": "poi.park",
+    "elementType": "geometry",
+    "stylers": [
+        {
+            "color": "#c5dac6"
+        }
+    ]
+},
+{
+    "featureType": "poi.park",
+    "elementType": "labels",
+    "stylers": [
+        {
+            "visibility": "on"
+        },
+        {
+            "lightness": 20
+        }
+    ]
+},
+{
+    "featureType": "road",
+    "elementType": "all",
+    "stylers": [
+        {
+            "lightness": 20
+        }
+    ]
+},
+{
+    "featureType": "road.highway",
+    "elementType": "geometry",
+    "stylers": [
+        {
+            "color": "#c5c6c6"
+        }
+    ]
+},
+{
+    "featureType": "road.arterial",
+    "elementType": "geometry",
+    "stylers": [
+        {
+            "color": "#e4d7c6"
+        }
+    ]
+},
+{
+    "featureType": "road.local",
+    "elementType": "geometry",
+    "stylers": [
+        {
+            "color": "#fbfaf7"
+        }
+    ]
+},
+{
+    "featureType": "water",
+    "elementType": "all",
+    "stylers": [
+        {
+            "visibility": "on"
+        },
+        {
+            "color": "#acbcc9"
+        }
+    ]
+}];
 
-    var styledMapOptions = {
-      name: 'Custom Style'
-    };
-
-    var customMapType = new google.maps.StyledMapType(
-            styles,
-            styledMapOptions);
-
-    map.mapTypes.set('map_style', customMapType);
-    map.setMapTypeId('map_style');
+var styledMapOptions = {
+  name: 'Custom Style'
 };
+
+var customMapType = new google.maps.StyledMapType(
+        styles,
+        styledMapOptions);
+
+map.mapTypes.set('map_style', customMapType);
+map.setMapTypeId('map_style');
+
 
 // Cet list of dates
 function getArrayOfDates(){
@@ -184,7 +182,7 @@ function createSlider(sliderDate){
     })
 };
 
-// To clear the map 
+// To clear markers on map 
 function clearMap(){
     for (var i = 0; i < markersArray.length; i++){
         markersArray[i].setMap(null);
@@ -240,8 +238,6 @@ function changeMap(fullDate){
             radius: locations[latlng]['count'] * 11000,
         });
 
-        console.log(marker);
-
         markersArray.push(marker);
 
         var arrayOfURLs = (locations[latlng]['url'])
@@ -273,5 +269,3 @@ function bindInfoWindow(marker, map, infoWindow, html) {
 
 //Place map on browser 
 getArrayOfDates();
-
-google.maps.event.addDomListener(window, 'load', initialize);
