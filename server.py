@@ -6,6 +6,7 @@ from jinja2 import StrictUndefined
 
 from flask import (Flask, render_template, redirect, request, flash, session, jsonify, g)
 from flask_debugtoolbar import DebugToolbarExtension
+from flask.ext.restless import APIManager
 
 from model import connect_to_db, db, Event
 
@@ -169,6 +170,10 @@ def year_data():
             };
 
     return jsonify(data_dict)
+
+manager = APIManager(app, flask_sqlalchemy_db=db)
+
+manager.create_api(Event, methods=['GET'])
 
 if __name__ == "__main__":
     import sys
