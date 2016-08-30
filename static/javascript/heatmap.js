@@ -226,9 +226,9 @@ function changeMap(fullDate){
     
         // Define markers in a circle
         marker = new google.maps.Circle ({
-            strokeColor: '#FF0000',
-            // strokeOpacity: 0.8,
-            strokeWeight: 0.2,
+            strokeColor: '#FFFFFF',
+            strokeOpacity: 0.8,
+            strokeWeight: 1,
             fillColor: '#FF0000',
             fillOpacity: 0.2,
             map: map,
