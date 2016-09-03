@@ -3,7 +3,7 @@ Spark
 
 **Description**
 
-Inspired by the attempted Turkish coup on July 15th 2016, Spark was created to visualize and analyze 2016 protests around the world over time. An application programming interface is also created for ease of access to data for developers.
+Inspired by the attempted Turkish coup on July 15th 2016, Spark was created to visualize and analyze 2016 protests around the world over time. An application programming interface was also created for ease of access to data for developers.
 
 **How it works**
 
@@ -18,7 +18,7 @@ Users can click on the slider in the map view to scroll through dates, which cha
 
 ### Technology Stack
 * Python
-* JavaScript + jQuery
+* JavaScript
 * JQuery UI
 * Flask Restless
 * Beautiful Soup
@@ -67,7 +67,7 @@ http://localhost:5000/
 
 
 ### Further Development
-* Adding Celery for real-time processing of protests data!
+* Stay tune for addition of Celery for real-time processing of protests data!
 
 
 ### About the Developer    
