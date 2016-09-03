@@ -17,10 +17,20 @@ Users can click on the slider in the map view to scroll through dates, which cha
 
 
 ### Technology Stack
-
-**Application:** PostgreSQL, SQLAlchemy, Python, Flask, Beautiful Soup, Flask Restless, Python's OS Library
-**APIs:** Google Map JavaScript API
-**Front-End**: HTML/CSS, Bootstrap, JQuery, JavaScript, AJAX, JQuery UI, Chart.js, Bootstrap
+* Python
+* JavaScript + jQuery
+* JQuery UI
+* Flask Restless
+* Beautiful Soup
+* Python's OS Library
+* PostgreSQL + SQLAlchemy
+* Flask
+* AJAX + JSON
+* HTML
+* CSS
+* Bootstrap
+* Google Maps JavaScript API
+* Chart.js
 
 
 ### Testing Coverage
