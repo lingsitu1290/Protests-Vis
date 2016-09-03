@@ -2,7 +2,7 @@
 
 Inspired by the attempted Turkish coup on July 15th 2016, this project was created to visualize and analyze 2016 protests around the world over time. An application programming interface was also created for ease of access to the data for developers. Users can click on the slider in the map view to scroll through dates, which changes the map to display that day's protests. The size of markers depends on the number of events for that particular latitude and longitude. Markers are also clickable for the first URL associated with the event. In the analysis view, users can select a month and day to display charts for further analysis.
 
-Learn more about the developer [here](www.linkedin.com/in/lingsitu1290)!
+Learn more about the developer [here](https://www.linkedin.com/in/lingsitu1290)!
 
 ## Table of Contents
 
