@@ -43,8 +43,9 @@ Inspired by the attempted Turkish coup on July 15th 2016, this project was creat
     ```
     http://localhost:5000/
     ```
+
 ## <a name="data"></a>Data
-Data was downloaded and processed from the Global Database of Events, Language, and Tone Project[website](http://data.gdeltproject.org/events/index.html) using the GDELT script. 
+Data was downloaded, processed, and stored into a PostgreSQL database from the Global Database of Events, Language, and Tone Project [website](http://data.gdeltproject.org/events/index.html) using the gdelt.py script. 
 
 ## <a name="future"></a>Future Development
 
