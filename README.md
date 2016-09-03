@@ -60,6 +60,5 @@ http://localhost:5000/
 
 ### About the Developer    
 Ling Situ  
-[Short Bio](https://chatasweetie.wordpress.com/about-me/)   
 [Linkedin](https://www.linkedin.com/in/lingsitu1290)    
     
