@@ -4,9 +4,39 @@ from server import app
 import server
 import json
 
+import requests
+import StringIO
+import zipfile
+import os
+import csv
+import os.path
+
 import gdelt
 import unittest
 import doctest
+
+# GDELT Testing Unit Tests and Doc Tests
+class GdeltFolderTestCase(unittest.TestCase):
+    """Unit tests for gdelt functions."""
+
+    def test_download_and_unzip_file(self):
+        # If running this script again, clear out the folder
+        # os.remove('./data/20160818.export.CSV')
+        url = 'http://data.gdeltproject.org/events/20160818.export.CSV.zip'
+        gdelt.download_and_unzip_file(url)
+        assert os.path.isfile('./data/20160818.export.CSV') == True
+
+    def test_process_csv(self):
+        result = gdelt.process_csv('20160818.export.CSV')
+        self.assertIn('570316050', result[0])
+
+    def test_load_data(self):
+        # Create a fake database?!?!?!
+        pass
+
+    def test_delete_file(self):
+        gdelt.delete_file('20160818.export.CSV')
+        assert os.path.isfile('./data/20160818.export.CSV') == False
 
 class GdeltTestCase(unittest.TestCase):
 
@@ -88,6 +118,15 @@ class MyAppIntegrationTestCase(unittest.TestCase):
         # Assert that this event id is a key in the dictionary
         self.assertIn('568274302', data)
         self.assertEqual(result.status_code, 200)
+
+#     def test_events_json(self):
+#         client = server.app.test_client()
+#         result = client.get('/events')
+#         # Turn result.data(string) into a dictionary
+#         data = json.loads(result.data)
+#         # Assert that this full date is a key in the dictionary
+#         self.assertIn('20160101', data)
+#         self.assertEqual(result.status_code, 200)
 
 if __name__ == "__main__":
     import unittest
