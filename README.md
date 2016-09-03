@@ -1,4 +1,4 @@
-# Visualizations of Global Protests
+# Visualizations of 2016 Global Protests
 
 Learn more about the developer: www.linkedin.com/in/lingsitu1290
 
@@ -10,6 +10,7 @@ Inspired by the attempted Turkish coup on July 15th 2016, this project was creat
 * [Features](#features)
 * [Testing Coverage](#test)
 * [How to Run](#run)
+* [Data](#data)
 * [Future Development](#future)
 
 ## <a name="tech-stack"></a>Technology Stack
@@ -42,6 +43,8 @@ Inspired by the attempted Turkish coup on July 15th 2016, this project was creat
     ```
     http://localhost:5000/
     ```
+## <a name="data"></a>Data
+Data was downloaded and processed from the Global Database of Events, Language, and Tone Project[website](http://data.gdeltproject.org/events/index.html) using the GDELT script. 
 
 ## <a name="future"></a>Future Development
 
