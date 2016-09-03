@@ -23,9 +23,10 @@ Users can click on the slider in the map view to scroll through dates, which cha
 * Flask Restless
 * Beautiful Soup
 * Python's OS Library
-* PostgreSQL + SQLAlchemy
+* PostgreSQL
+* SQLAlchemy
 * Flask
-* AJAX + JSON
+* AJAX
 * HTML
 * CSS
 * Bootstrap
@@ -66,6 +67,7 @@ http://localhost:5000/
 
 
 ### Further Development
+* Adding Celery for real-time processing of protests data!
 
 
 ### About the Developer    
