@@ -2,6 +2,7 @@
 <html>
     <head>
       <title>Protests</title>
+      <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
       <link rel="stylesheet" type="text/css" href="../static/css/style.css">
       <link href="http://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet">
       <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
@@ -13,14 +14,12 @@
     </head>
 
     <body>
-
     <!-- Nav Bar -->
-
-    <ul>
-      <li><a href="/">Home</a></li>
-      <li><a href="/analyze">Analysis</a></li>
-      <li><a href="/api/events">API<a></li>
-    </ul>
+    <div id="nav">
+      <a href="/">Home</a> &nbsp;&nbsp;&nbsp;
+      <a href="/analyze">Analysis</a> &nbsp;&nbsp;&nbsp;
+      <a href="/api/events">API<a> &nbsp;&nbsp;&nbsp;
+    </div>
             
     {% block content %} CONTENT {% endblock %}
 
