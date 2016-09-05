@@ -15,13 +15,18 @@
 
     <body>
     <!-- Nav Bar -->
-    <div id="nav">
-      <a href="/">Home</a> &nbsp;&nbsp;&nbsp;
-      <a href="/analyze">Analysis</a> &nbsp;&nbsp;&nbsp;
-      <a href="/api/events">API<a> &nbsp;&nbsp;&nbsp;
-    </div>
-            
-    {% block content %} CONTENT {% endblock %}
 
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+          <li><a href="/">Map</a></li>
+          <li><a href="/analyze">Analysis</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+          <li><a href="/api/events">API</a></li>
+      </ul>
+    </div>
+
+    {% block content %} CONTENT {% endblock %}
+    
     </body>
 </html>

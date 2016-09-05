@@ -26,3 +26,10 @@ body {
     background-color: #D8D8DD;
     font-size: 18px;
 }
+
+.navbar {
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-family: 'Raleway', sans-serif;
+}
