@@ -9,12 +9,12 @@ body {
 }
         
 #map-canvas { 
-    height: 90%; 
+    height: 85%; 
     width: 100%;
 }
 
 #slider-1 {
-    width: 100%
+    width: 100%,
 }
 
 .window-content {
@@ -26,4 +26,12 @@ body {
   border: none;
   color: #fff;
   font-family: 'Raleway', sans-serif;
+}
+
+#slider-value{
+  font-size: 30px;
+}
+
+#date{
+  font-size: 30px;
 }
