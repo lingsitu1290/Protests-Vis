@@ -12,7 +12,6 @@
 }
 
 body {
-    padding-top: 50px;
     font-family: 'Raleway', sans-serif;
 }
 
@@ -22,8 +21,7 @@ h2 {
 }
 
 .event-chart{
-    height: 50%;
-    width: 50%;
+    height: 120%;
 }
 
 body{
@@ -32,4 +30,8 @@ body{
 
 .nav{
     background-color: #ACBCC9;
+}
+
+#barChart{
+    float:right;
 }
