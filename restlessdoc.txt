@@ -28,6 +28,7 @@ http://localhost:5000/api/events?q={"filters":[{"name":"full_location","op":"lik
 2. Search where url is from yahoo:
 http://localhost:5000/api/events?q={"filters":[{"name":"url","op":"like","val":"%yahoo%"}]}
 
+
 Using Python:
 --------------------
 This will return data where full_date contains the value 2016.
@@ -45,8 +46,6 @@ response = requests.get(url, params=params, headers=headers)
 assert response.status_code == 200
 print(response.json())
 
-Using jQuery:
---------------------
 
 Querying in URL:
 ====================
@@ -85,7 +84,3 @@ From Flask Restless, "Responses to GET requests are paginated by default, with a
 
     Example 1: http://localhost:5000/api/events?page=5324
         This will go to page 5324 of the GET requests. 
-
-====== NEED TO COMPLETE =======
-FOR USER TO GET DATA WITHOUT RUNNING GDELT.PY:
-User can get all of 2016's data by running the following in a script. 
