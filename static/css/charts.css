@@ -13,6 +13,8 @@
 
 body {
     font-family: 'Raleway', sans-serif;
+    background-image:url(../img/pw_maze_white.png);
+    background-color: #F2E5D4;
 }
 
 h2 {
@@ -24,6 +26,6 @@ h2 {
     height: 120%;
 }
 
-body{
-    background-color: #F2E5D4;
+h2 {
+    padding-bottom: 20px;
 }
