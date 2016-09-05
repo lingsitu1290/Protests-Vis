@@ -10,7 +10,6 @@ from flask.ext.restless import APIManager
 
 from model import connect_to_db, db, Event
 
-
 app = Flask(__name__)
 
 # Required to use Flask sessions and the debug toolbar
@@ -29,7 +28,7 @@ def add_tests():
     g.jasmine_tests = JS_TESTING_MODE
 
 @app.route('/')
-def heat():
+def index():
     """Heatmap of protests."""
 
     return render_template("heat.html")
@@ -52,7 +51,6 @@ def latlong(fullDate):
         for event in Event.query.filter(Event.full_date == fullDate).all()}
 
     return jsonify(events)
-
 
 @app.route('/events')
 def getEvents():
@@ -144,7 +142,7 @@ def year_data():
                 "labels": ["January", "February", "March", "April", "May", "June", "July", "August"],
                 "datasets": [
                     {
-                        "label": "Protests in 2016 by Month",
+                        "label": "Protests in 2016",
                         "backgroundColor": [
                             'rgba(255, 99, 132, 0.2)',
                             'rgba(54, 162, 235, 0.2)',
@@ -171,11 +169,18 @@ def year_data():
 
     return jsonify(data_dict)
 
+# Include only these columns in API
+includes = ['event_id', 'event_code', 'full_date', 'latitude', 'longitude', 'full_location','url']
+
 manager = APIManager(app, flask_sqlalchemy_db=db)
 
-manager.create_api(Event, methods=['GET'])
+manager.create_api(Event, results_per_page=30, 
+                          primary_key='event_id',
+                          include_columns=includes,
+                          methods=['GET'])
 
 if __name__ == "__main__":
+    # For Jasmine testing: to run type in python server.py jstest
     import sys
     if sys.argv[-1] == "jstest":
         JS_TESTING_MODE = True
