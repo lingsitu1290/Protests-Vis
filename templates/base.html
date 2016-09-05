@@ -1,32 +1,31 @@
 <!doctype html>
 <html>
-    <head>
-      <title>Protests</title>
-      <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
-      <link rel="stylesheet" type="text/css" href="../static/css/style.css">
-      <link href="http://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet">
-      <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
-      <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
-      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-      <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
-      <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3&sensor=false">
-      </script>
-    </head>
+  <head>
+    <title>Protests</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../static/css/style.css">
+    <link href="http://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet">
+    <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3&sensor=false">
+    </script>
+  </head>
 
-    <body>
-    <!-- Nav Bar -->
+  <body>
+  <!-- Nav Bar -->
+  <div id="navbar" class="navbar-collapse collapse">
+    <ul class="nav navbar-nav">
+        <li><a href="/">Map</a></li>
+        <li><a href="/analyze">Analysis</a></li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+        <li><a href="/api/events">API</a></li>
+    </ul>
+  </div>
 
-    <div id="navbar" class="navbar-collapse collapse">
-      <ul class="nav navbar-nav">
-          <li><a href="/">Map</a></li>
-          <li><a href="/analyze">Analysis</a></li>
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
-          <li><a href="/api/events">API</a></li>
-      </ul>
-    </div>
-
-    {% block content %} CONTENT {% endblock %}
-    
-    </body>
+  {% block content %} CONTENT {% endblock %}
+  
+  </body>
 </html>

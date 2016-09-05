@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
+
     <!-- Import JavaScript -->
     <script src="https://code.jquery.com/jquery.js"></script>
     <script src=
@@ -11,28 +12,29 @@
     <h2> Visualizations of Global Protests in 2016 </h2>
 
     <div class="container">
-    <div class="col-xs-6">
-        <label>What month would you like to visualize?<br>
-            <input type="text" name="month" id="month" placeholder="Example: 07" value="07"></input>
-        </label><br>
-        <label>What day would you like to visualize?<br>
-            <input type="text" name="day" id="day" placeholder="Example: 16" value="16"></input>
-        </label><br>
+        <div class="col-xs-6">
+            <label>What month would you like to visualize?<br>
+                <input type="text" name="month" id="month" placeholder="Example: 07" value="07">
+                </input>
+            </label>
+            <br>
+            <label>What day would you like to visualize?<br>
+                <input type="text" name="day" id="day" placeholder="Example: 16" value="16">
+                </input>
+            </label>
+            <br>
             <input type="submit" id="submit"></input>
 
-        <br>
-        <br>
-
-        <div class="event-chart">
-          <canvas id="donutChart"></canvas>
-          <div id="donutlegend" class="chart-legend"></div>
+            <div class="event-chart">
+              <canvas id="donutChart"></canvas>
+              <div id="donutlegend" class="chart-legend"></div>
+            </div>
         </div>
-    </div>
 
-    <div class="col-xs-6">
-      <canvas id="barChart"></canvas>
-      <div id="barlegend" class="bar-legend"></div>
-    </div>
+        <div class="col-xs-6">
+          <canvas id="barChart"></canvas>
+          <div id="barlegend" class="bar-legend"></div>
+        </div>
     </div>
 
     <script type="text/javascript" src="../static/javascript/analyze.js">

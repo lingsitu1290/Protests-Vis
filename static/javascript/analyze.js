@@ -19,7 +19,7 @@ function makeDonut(){
     });
 }
 
-// Make bar graph of number of protests in specific countries 
+// Make bar graph of number of protests per month
 function makeBar(){
     $.get('/yearchart.json', function (data) {
         var myBarChart = new Chart(ctx_bar, {
