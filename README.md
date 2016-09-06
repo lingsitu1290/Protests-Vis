@@ -15,9 +15,9 @@ Learn more about the developer [here](https://www.linkedin.com/in/lingsitu1290)!
 
 ## <a name="tech-stack"></a>Technology Stack
 
-* Back-End: Python, JavaSript, Flask Restless, Beautiful Soup, Python's OS Library
-* Front-End: JavaScript, jQuery, AJAX, jQuery UI, Chart.js, Bootstrap, HTML, CSS
-* Database: PostgreSQL, SQLAlchemy ORM
+* Back-End: Python, Flask Restless, Beautiful Soup, Python's OS Library
+* Front-End: JavaScript, AJAX, jQuery UI, Chart.js, Bootstrap, HTML, CSS
+* Database: PostgreSQL, SQLAlchemy
 * APIs: Google Maps JavaScript API
 
 ## <name="features"></a>Features
