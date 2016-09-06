@@ -51,22 +51,24 @@ Data back up is not available in repository as the file too big to push. To run 
   2. Install the dependencies 
     ```
     > pip install -r requirements.txt
-
     ```
   3. Create a protests database
     ```
     > createdb protests
-    
     ```
-  4. Run gdelt file (DISCLAIMER: this can take some time)
+  4. Create events table and connect to protests database 
+    ```
+    > python model.py
+    ``` 
+  5. Run gdelt file (DISCLAIMER: this will take some time)
     ```
     > python gdelt.py
     ``` 
-  5. After gdelt.py is complete. In a new Terminal run App
+  6. After gdelt.py is complete. In a new Terminal run App
     ```
     > python server.py
     ```
-  6. Open your browser and navigate to 
+  7. Open your browser and navigate to 
     ```
     http://localhost:5000/
     ```
@@ -78,4 +80,3 @@ Data was downloaded, processed, and stored into a PostgreSQL database from the G
 
 * Sentiment Analysis using Natural Language Processing for content in associated URL!
 * Celery Distributed Task Queue: For real-time processing of protests data!
-* More charts!
