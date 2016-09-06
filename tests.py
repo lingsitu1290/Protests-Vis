@@ -17,7 +17,7 @@ import doctest
 
 # GDELT Testing Unit Tests and Doc Tests
 class GdeltFolderTestCase(unittest.TestCase):
-    """Unit tests for gdelt functions."""
+    """Unit tests for gdelt functions concerning files."""
 
     def test_download_and_unzip_file(self):
         # If running this script again, clear out the folder
@@ -39,6 +39,7 @@ class GdeltFolderTestCase(unittest.TestCase):
         assert os.path.isfile('./data/20160818.export.CSV') == False
 
 class GdeltTestCase(unittest.TestCase):
+    """ Further unit tests for gdelt functions."""
 
     def test_get_URLs(self):
         assert gdelt.get_URLs()[-5:-1] == ['1983.zip', '1982.zip', '1981.zip', '1980.zip']
@@ -93,7 +94,7 @@ app.config['TESTING'] = True
 
 connect_to_db(app)
 
-class MyAppIntegrationTestCase(unittest.TestCase):
+class IntegrationTestCase(unittest.TestCase):
     """ Testing Flask Server. """
 
     def test_index(self):
@@ -119,14 +120,23 @@ class MyAppIntegrationTestCase(unittest.TestCase):
         self.assertIn('568274302', data)
         self.assertEqual(result.status_code, 200)
 
-#     def test_events_json(self):
-#         client = server.app.test_client()
-#         result = client.get('/events')
-#         # Turn result.data(string) into a dictionary
-#         data = json.loads(result.data)
-#         # Assert that this full date is a key in the dictionary
-#         self.assertIn('20160101', data)
-#         self.assertEqual(result.status_code, 200)
+    def test_events_for_2016_json(self):
+        client = server.app.test_client()
+        result = client.get('/events')
+        # Turn result.data(string) into a dictionary
+        data = json.loads(result.data)
+        # Assert that this full date is a key in the dictionary
+        self.assertIn('20160101', data)
+        self.assertEqual(result.status_code, 200)
+
+    def test_eventcode(self):
+        client = server.app.test_client()
+        result = client.get('/eventcode/20160811.json')
+        data = json.loads(result.data)
+        # Assert that this full date is a key in the dictionary
+        self.assertIn('datasets', data)
+        self.assertEqual(result.status_code, 200)  
+
 
 if __name__ == "__main__":
     import unittest
