@@ -60,7 +60,7 @@ Data back up is not available in repository as the file too big to push. To run 
     ```
     > python model.py
     ``` 
-  5. Run gdelt file (DISCLAIMER: this will take some time)
+  5. Run gdelt file (this will take some time)
     ```
     > python gdelt.py
     ``` 
