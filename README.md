@@ -37,11 +37,13 @@ API allows for ease of access to data in various ways such as curling.
 
 ## <a name="test"></a>Testing Coverage
 
-![test](/static/pic/test.png)
+Seed.py was omitted for testing because code was integrated into gdelt.py
+
+![test](/static/img/test.png)
 
 ## <a name="run"></a>How to Run
 
-Data back up is not available in repository as the file too big to push. To run on your local machine, running gdelt.py is required before starting server. 
+Data back up file is not available in repository as the file is too big to push. To run on your local machine, running gdelt.py is required before starting server. 
 
   1. Create a virtual environment 
     ```
