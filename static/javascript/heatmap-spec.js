@@ -1,14 +1,16 @@
-describe("My Test Suite", function () {
+describe("test getArrayOfDates function", function () {
 
-    // Testing getArrayOfDates function to expect first index 
-    it("should get dates array", function () {
+    // Testing getArrayOfDates to return undefined
+    it("arrayOfDates should be undefined", function () {
         var arrayOfDates = getArrayOfDates();
-        expect(getArrayOfDates[0]).toBe(20160101);
+        expect(arrayOfDates).not.toBeDefined();
     });
+});
 
-    // Test clearMap function to return empty list
-    it("should get empty list", function () {
-        var arrayOfDates = clearMap();
-        expect(clearMap()).toBe([]);
+describe("test clearMap function", function () {
+
+    // Expect markersArray to be an empty list
+    it("clearMap should return empty list", function () {
+        expect(markersArray).toEqual([]);
     });
 });
