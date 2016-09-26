@@ -21,25 +21,25 @@ class Event(db.Model):
     longitude = db.Column(db.Float, nullable=False)
     url = db.Column(db.String(600), nullable=True)
 
-    def __repr__(self):
-        """Present event details when printed."""
+    # def __repr__(self):
+    #     """Present event details when printed."""
 
-        return "<Event={} full_date={} full_location={}>".format(self.event_id, self.full_date, self.full_location)
+    #     return "<Event={} full_date={} full_location={}>".format(self.event_id, self.full_date, self.full_location)
 
-def connect_to_db(app):
-    """Connect the database to our Flask app."""
+def connect_to_db(app, db_uri=None):
+    """Connect our application to our database."""
 
     # Configure to use PostgreSQL database
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///protests'
+    app.config['SQLALCHEMY_DATABASE_URI'] = db_uri or 'postgres:///protests'
     db.app = app 
     db.init_app(app)
 
 if __name__ == "__main__":
     # Used to run module interactively
     # Drops and creates database  
-    import os
-    os.system("dropdb protests")
-    os.system("createdb protests")
+    # import os
+    # os.system("dropdb protests")
+    # os.system("createdb protests")
 
     from server import app
     connect_to_db(app)

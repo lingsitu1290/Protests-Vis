@@ -187,9 +187,10 @@ if __name__ == "__main__":
 
     # We have to set debug=True here, since it has to be True at the
     # point that we invoke the DebugToolbarExtension
-    app.debug = True
+    # app.debug = True
 
-    connect_to_db(app)
+    connect_to_db(app, os.environ.get("DATABASE_URL"))
+
 
     # Use the DebugToolbar
     DebugToolbarExtension(app)

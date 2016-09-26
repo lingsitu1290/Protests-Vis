@@ -2,3 +2,4 @@ env/
 *.pyc
 .DS_STORE
 protests.sql
+from_2014_protests.sql

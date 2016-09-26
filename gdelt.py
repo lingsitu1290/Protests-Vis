@@ -12,9 +12,6 @@ from model import Event
 from model import connect_to_db, db
 from server import app
 
-#group into class
-
-
 DATA_DIR = "./data"
 
 # Get URLS from gdelt URL
