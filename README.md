@@ -21,7 +21,7 @@ Learn more about the developer [here](https://www.linkedin.com/in/lingsitu1290)!
 * Database: PostgreSQL, SQLAlchemy
 * APIs: Google Maps JavaScript API
 
-## <name="features"></a>Features
+## <a name="features"></a>Features
 
 In the map view, users can scroll through a slider of dates which changes the map to display the protests per day. When a marker is clicked, there will be a link to the associated URL.
 
